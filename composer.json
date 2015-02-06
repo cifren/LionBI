@@ -20,32 +20,11 @@
         "php": ">=5.3.3",
         "symfony/framework-bundle": "~2.4",
         "doctrine/orm": "~2.2,>=2.2.3",
-        "lexik/form-filter-bundle": "v2.0.3",
-        "earls/rhino-report-bundle": "dev-master",
-        "earls/oxpecker-data-bundle": "dev-master",
-        "earls/flamingo-command-queue-bundle": "dev-master"
+        "lexik/form-filter-bundle": "v2.0.3"
         
     },
     "autoload":     {
         "psr-0": { "Earls\\LionBusinessIntelligenceBundle": "" }
     },
-    "target-dir": "Earls/LionBusinessIntelligenceBundle",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/earls/RhinoReport.git"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/earls/OxPeckerDataBundle.git"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/earls/OxPeckerData.git"
-        },
-        {
-            "type": "vcs",
-            "url": "git@github.com:earls/FlamingoCommandQueue.git"
-        }
-    ]
+    "target-dir": "Earls/LionBusinessIntelligenceBundle"
 }
