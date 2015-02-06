@@ -1,0 +1,30 @@
+{
+    "name": "earls/lion-bi-bundle",
+    "type": "symfony-bundle",
+    "description": "Create your own report system with lionBI",
+    "keywords": ["reporting", "report", "filter", "list"],
+    "homepage": "https://github.com/cifren/LionBusinessIntelligence",
+    "license": "MIT",       
+    "minimum-stability": "dev", 
+    "authors": [
+        {
+            "name": "Francis Le Coq",
+            "email": "flecoq@earls.ca"
+        },
+        {
+            "name": "Dev earls",
+            "homepage": "http:\\www.earls.ca"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "symfony/framework-bundle": "~2.4",
+        "doctrine/orm": "~2.2,>=2.2.3",
+        "lexik/form-filter-bundle": "v2.0.3",
+        
+    },
+    "autoload":     {
+        "psr-0": { "Earls\\LionBusinessIntelligenceBundle": "" }
+    },
+    "target-dir": "Earls/LionBusinessIntelligenceBundle"
+}
