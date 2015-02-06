@@ -24,7 +24,7 @@
         
     },
     "autoload":     {
-        "psr-0": { "Earls\\LionBusinessIntelligenceBundle": "" }
+        "psr-0": { "Earls\\LionBiBundle": "" }
     },
-    "target-dir": "Earls/LionBusinessIntelligenceBundle"
+    "target-dir": "Earls/LionBiBundle"
 }
