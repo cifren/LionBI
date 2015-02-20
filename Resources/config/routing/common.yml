@@ -1,0 +1,3 @@
+lionbi_common_template:
+    pattern: /template/{templateName}
+    defaults: { _controller: EarlsLionBiBundle:Common:template }

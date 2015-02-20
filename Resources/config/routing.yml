@@ -10,6 +10,6 @@ lion_bi_report:
     resource: "@EarlsLionBiBundle/Resources/config/routing/report.yml"
     prefix: /admin/report
 
-lion_bi_data:
-    resource: "@EarlsLionBiBundle/Resources/config/routing/data.yml"
+lion_bi_dataReport:
+    resource: "@EarlsLionBiBundle/Resources/config/routing/dataReport.yml"
     prefix: /admin/data
