@@ -1,0 +1,15 @@
+lionbi_dashboard:
+    pattern: /admin
+    defaults: { _controller: EarlsLionBiBundle:Dashboard:default }
+    
+lion_bi_common:
+    resource: "@EarlsLionBiBundle/Resources/config/routing/common.yml"
+    prefix: /admin/common
+    
+lion_bi_report:
+    resource: "@EarlsLionBiBundle/Resources/config/routing/report.yml"
+    prefix: /admin/report
+
+lion_bi_data:
+    resource: "@EarlsLionBiBundle/Resources/config/routing/data.yml"
+    prefix: /admin/data

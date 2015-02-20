@@ -20,7 +20,6 @@
         "php": ">=5.3.3",
         "symfony/framework-bundle": "~2.4",
         "doctrine/orm": "~2.2,>=2.2.3",
-        "lexik/form-filter-bundle": "v2.0.3",
         "friendsofsymfony/jsrouting-bundle": "~1.1"
     },
     "autoload": {
