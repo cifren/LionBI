@@ -22,34 +22,7 @@
         </div>
 
         <div ng-app="reportEditor" ng-controller="sqlCtrl">
-            <div class="alert alert-success" ng-if="alertStatus">
-                {% verbatim %}
-                    {{alertMsg}}
-                {% endverbatim %}
-            </div>
-            <form novalidate id="data-report" ng-submit="submitForm()">
-                <input type="hidden" id="id" ng-model="dataReport.id">
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="email" class="form-control" id="name" placeholder="Enter name" ng-model="dataReport.displayName">
-                </div>
-                <div class="form-group">
-                    <label for="type">Choose your type of data</label>
-                    <select id="type" class="form-control" ng-model="dataReport.lnbDataReportType" ng-change="changeType()">
-                        <option value="0">SQL</option>
-                    </select>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="form-group">
-                            <label for="sql-statement">Add a sql statement</label>
-                            <textarea id="sql-statement" class="form-control" rows="3" ng-model="dataReport.sql"></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div ng-view></div>
-                <button id="data-report" type="submit" class="btn btn-primary">Submit</button>
-            </form>
+            <div ng-view></div>
         </div>
     </div>
 {% endblock %}

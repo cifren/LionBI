@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Earls\LionBiBundle\Entity\LnbDataReportType
  *
- * @ORM\Table(name="lnb_data_report_type")
+ * @ORM\Table(name="lnb_data_report_type", indexes={@ORM\Index(name="name_id_idx", columns={"name_id"})})
  * @ORM\Entity
  */
 class LnbDataReportType

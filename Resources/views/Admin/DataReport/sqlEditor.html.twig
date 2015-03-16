@@ -1,0 +1,23 @@
+<div class="alert alert-success" ng-if="alertStatus">
+    {% verbatim %}
+        {{alertMsg}}
+    {% endverbatim %}
+</div>
+<form id="data-report" ng-submit="submitForm()">
+    {% verbatim %}
+    <input type="hidden" id="id" name="id" ng-value="dataReport.id">
+    {% endverbatim %}
+    <div class="form-group">
+        {{form_label(form.displayName) }}
+        {{form_widget(form.displayName, {attr: {class: "form-control", placeholder: "Enter name", "ng-model": "dataReport.displayName"}})}}
+    </div>
+    <div class="form-group">
+        {{form_label(form.lnbDataReportType) }}
+        {{form_widget(form.lnbDataReportType, {attr: {class: "form-control", "ng-model": "dataReport.lnbDataReportType"}})}}
+    </div>
+    <div class="form-group">
+        {{form_label(form.sqlStatement) }}
+        {{form_widget(form.sqlStatement, {attr: {class: "form-control", rows: "3", "ng-model": "dataReport.sqlStatement"}})}}
+    </div>
+    <button id="data-report" type="submit" class="btn btn-primary">Submit</button>
+</form>

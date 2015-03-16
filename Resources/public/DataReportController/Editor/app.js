@@ -5,13 +5,19 @@ var reportEditor = angular.module('reportEditor', [
 ]);
 
 reportEditor
-        .config(['$routeProvider',
-            function ($routeProvider) {
+        .config(['$routeProvider', '$locationProvider',
+            function ($routeProvider, $locationProvider) {
                 $routeProvider.
                         //advanced search list
                         when('/sqlDataDetails', {
                             name: 'sqlDataDetails',
-                            //templateUrl: Routing.generate('lionbi_common_template', {templateName: encodeURIComponent('EarlsLionBiBundle:Admin/Data:sql_editor.html.twig')}),
+                            templateUrl: Routing.generate('lionbi_dataReport_sqlEditor'),
+                            controller: 'sqlCtrl'
+                        }).
+                        //advanced search list
+                        when('/sqlDataDetails/:id', {
+                            name: 'sqlDataDetails&id',
+                            templateUrl: Routing.generate('lionbi_dataReport_sqlEditor'),
                             controller: 'sqlCtrl'
                         })
                         .otherwise({

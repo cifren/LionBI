@@ -25,16 +25,16 @@ class LnbDataReport
     /**
      * @var string $displayName
      *
-     * @ORM\Column(name="diaplay_name", type="integer")
+     * @ORM\Column(name="display_name", type="text", length=100)
      */
     protected $displayName;
 
     /**
-     * @var string $sql
+     * @var string $sqlStatement
      *
-     * @ORM\Column(name="sql", type="text")
+     * @ORM\Column(name="sqlStatement", type="text")
      */
-    protected $sql;
+    protected $sqlStatement;
 
     /**
      * @var string $entityName
@@ -68,9 +68,9 @@ class LnbDataReport
         return $this->displayName;
     }
 
-    public function getSql()
+    public function getSqlStatement()
     {
-        return $this->sql;
+        return $this->sqlStatement;
     }
 
     public function getEntityName()
@@ -94,9 +94,9 @@ class LnbDataReport
         return $this;
     }
 
-    public function setSql($sql)
+    public function setSqlStatement($sqlStatement)
     {
-        $this->sql = $sql;
+        $this->sqlStatement = $sqlStatement;
         return $this;
     }
 
@@ -116,6 +116,16 @@ class LnbDataReport
     {
         $this->lnbDataReportType = $lnbDataReportType;
         return $this;
+    }
+
+    public function getArray()
+    {
+        return array(
+            'id' => $this->getId(),
+            'displayName' => $this->getDisplayName(),
+            'sqlStatement' => $this->getSqlStatement(),
+            'lnbDataReportType' => $this->getLnbDataReportType()->getId()
+        );
     }
 
 }
