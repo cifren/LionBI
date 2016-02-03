@@ -19,7 +19,7 @@
     "require": {
         "php": ">=5.3.3",
         "symfony/framework-bundle": "~3.0",
-        "friendsofsymfony/jsrouting-bundle": "~1.1"
+        "friendsofsymfony/jsrouting-bundle": "~1.5.4"
     },
     "autoload": {
         "psr-0": {
