@@ -18,7 +18,8 @@
     ],
     "require": {
         "php": ">=5.3.3",
-        "symfony/framework-bundle": "~3.0"
+        "symfony/framework-bundle": "~3.0",
+        "earls/oxpecker-data-bundle": "dev-master"
     },
     "autoload": {
         "psr-0": {
