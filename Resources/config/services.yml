@@ -2,4 +2,3 @@ parameters:
     lion_bi_entity_manager_name:    null
     
 services:
-    

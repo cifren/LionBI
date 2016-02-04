@@ -1,19 +1,19 @@
 lionbi_dataReport_list:
-    pattern: /list
+    path: /list
     defaults: { _controller: EarlsLionBiBundle:DataReport:list }
     
 lionbi_dataReport_editor:
-    pattern: /editor
+    path: /editor
     defaults: { _controller: EarlsLionBiBundle:DataReport:editor }
     
 lionbi_dataReport_sqlEditor:
-    pattern: /sqleditor
+    path: /sqleditor
     defaults: { _controller: EarlsLionBiBundle:DataReport:sqlEditor }
     
 lionbi_dataReport_saveDataReport:
-    pattern: /save_date_report
+    path: /save_date_report
     defaults: { _controller: EarlsLionBiBundle:DataReport:saveDataReport }
     
 lionbi_dataReport_getJsonDataReport:
-    pattern: /getJsonDataReport/{id}
+    path: /getJsonDataReport/{id}
     defaults: { _controller: EarlsLionBiBundle:DataReport:getJsonDataReport }

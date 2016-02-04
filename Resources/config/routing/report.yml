@@ -1,7 +1,7 @@
 lionbi_report_list:
-    pattern: /list
+    path: /list
     defaults: { _controller: EarlsLionBiBundle:Report:list }
     
 lionbi_report_editor:
-    pattern: /editor
+    path: /editor
     defaults: { _controller: EarlsLionBiBundle:Report:editor }

@@ -1,5 +1,5 @@
 lionbi_dashboard:
-    pattern: /admin
+    path: /admin
     defaults: { _controller: EarlsLionBiBundle:Dashboard:default }
     
 lion_bi_common:
