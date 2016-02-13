@@ -4,11 +4,18 @@ namespace Earls\LionBiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\VirtualProperty;
+
 /**
  * Earls\LionBiBundle\Entity\LnbDataReport
  *
  * @ORM\Table(name="lnb_data_report")
  * @ORM\Entity
+ * 
+ * @ExclusionPolicy("all") 
  */
 class LnbDataReport
 {
@@ -19,6 +26,7 @@ class LnbDataReport
      * @ORM\Column(type="integer", options={"unsigned":true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Expose
      */
     protected $id;
 
@@ -26,13 +34,15 @@ class LnbDataReport
      * @var string $displayName
      *
      * @ORM\Column(name="display_name", type="text", length=100)
+     * @Expose
      */
     protected $displayName;
 
     /**
      * @var string $sqlStatement
      *
-     * @ORM\Column(name="sqlStatement", type="text")
+     * @ORM\Column(name="sqlStatement", type="text", nullable=true)
+     * @Expose
      */
     protected $sqlStatement;
 
@@ -40,6 +50,7 @@ class LnbDataReport
      * @var string $entityName
      *
      * @ORM\Column(name="entity_name", type="text", nullable=true)
+     * @Expose
      */
     protected $entityName;
 
@@ -47,6 +58,7 @@ class LnbDataReport
      * @var int $entityId
      *
      * @ORM\Column(name="entity_id", type="integer", nullable=true)
+     * @Expose
      */
     protected $entityId;
 

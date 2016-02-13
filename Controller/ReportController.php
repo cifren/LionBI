@@ -3,6 +3,10 @@
 namespace Earls\LionBiBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
+use Earls\LionBiBundle\Entity\LnbReportConfig;
 
 /**
  * Description of DashboardController
@@ -21,11 +25,21 @@ class ReportController extends Controller
         ));
     }
     
-    public function EditorAction()
+    public function EditorAction(Request $request)
     {
-
-        return $this->render('EarlsLionBiBundle:Admin/Report:editor.html.twig', array(
-        ));
+        $entity = new LnbReportConfig();
+        $form = $this->createForm('Earls\LionBiBundle\Form\DataReport\Type\ReportType', $entity, array('method' => 'PUT'));
+        $form->add('save', SubmitType::class, array('label' => 'Create'));
+        
+        $form->handleRequest($request);
+        
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($entity);
+            $em->flush();
+        }
+        
+        return $this->render('EarlsLionBiBundle:Admin/Report:editor.html.twig', array('form' => $form->createView()));
     }
 
     protected function getEntityManager()

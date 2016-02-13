@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  */
 class LnbReportConfig
-{ 
+{
 
     /**
      * @var integer $id
@@ -25,43 +25,38 @@ class LnbReportConfig
     /**
      * @var string $displayName
      *
-     * @ORM\Column(name="diaplay_name", type="integer")
+     * @ORM\Column(name="display_name", type="text")
      */
     protected $displayName;
 
     /**
      * @var array $conceptName
      *
-     * @ORM\Column(name="json_config", type="array")
+     * @ORM\Column(name="json_config", type="array", nullable=true)
      */
     protected $jsonConfig;
 
-    function getId()
+    public function getId()
     {
         return $this->id;
     }
 
-    function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    function getJsonConfig()
+    public function getJsonConfig()
     {
         return $this->jsonConfig;
     }
 
-    function setJsonConfig(array $jsonConfig)
+    public function setJsonConfig(array $jsonConfig)
     {
         $this->jsonConfig = $jsonConfig;
     }
 
-    function getDisplayName()
+    public function getDisplayName()
     {
         return $this->displayName;
     }
 
-    function setDisplayName($displayName)
+    public function setDisplayName($displayName)
     {
         $this->displayName = $displayName;
     }
