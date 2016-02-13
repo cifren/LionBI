@@ -1,0 +1,5 @@
+users : 
+  type: rest
+  resource:     "EarlsLionBiBundle:LnbReportRest"
+  defaults: {_format: json}
+  name_prefix:  api_

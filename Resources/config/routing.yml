@@ -13,3 +13,9 @@ lion_bi_report:
 lion_bi_dataReport:
     resource: "@EarlsLionBiBundle/Resources/config/routing/dataReport.yml"
     prefix: /admin/data
+    
+lion_bi_rest : 
+  type : rest 
+  resource : "@EarlsLionBiBundle/Resources/config/routing/rest.yml"
+  defaults: {_format: json}
+  prefix : /api

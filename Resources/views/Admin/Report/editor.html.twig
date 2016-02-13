@@ -1,18 +1,5 @@
 {% extends 'EarlsLionBiBundle:Admin:layout.html.twig' %}
 
-{% block javascripts  %}
-    {{parent()}}
-    {% javascripts
-        '@EarlsLionBiBundle/Resources/public/components/angular/angular.min.js'
-        '@EarlsLionBiBundle/Resources/public/components/angular-resource/angular-resource.min.js'
-        '@EarlsLionBiBundle/Resources/public/components/angular-route/angular-route.min.js'
-        '@EarlsLionBiBundle/Resources/public/ReportController/Editor/app.js'
-        '@EarlsLionBiBundle/Resources/public/ReportController/Editor/controller.js'
-    %}
-        <script type="text/javascript" src="{{ asset_url }}"></script>
-    {% endjavascripts  %}
-{% endblock %}
-
 {% block rightContent %}
     <div id="page-wrapper">
         <div class="row">
@@ -21,8 +8,8 @@
             </div>
         </div>
         
-        <div ng-app="reportEditor">
-            <div ng-view></div>
+        <div>
+            {{ form(form) }}
         </div>
     </div>
 

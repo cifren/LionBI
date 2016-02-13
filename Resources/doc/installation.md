@@ -6,6 +6,8 @@ Add the bunde to your `composer.json` file:
 require: {
     // ...
     "earls/lion-bi-bundle": "dev-master",
+    "friendsofsymfony/rest-bundle": "dev-master",
+    "jms/serializer-bundle": "dev-master"
     // ...
 },
 "repositories": [
@@ -27,8 +29,9 @@ Register the bundle with your `kernel`:
 ```php
 // in AppKernel::registerBundles()
 $bundles = array(
-    //Access all routes from javascript
-    new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
+    //REST application
+    new FOS\RestBundle\FOSRestBundle(),
+    new JMS\SerializerBundle\JMSSerializerBundle(),
     // ...
     new Earls\LionBiBundle\EarlsLionBiBundle(),
     // ...
@@ -43,19 +46,19 @@ assetic:
     #add font-awesome fonts to assetic
     assets:
       font-awesome-otf:
-        inputs: '@EarlsLionBiBundle/Resources/public/components/font-awesome/fonts/FontAwesome.otf'
+        inputs: '@EarlsLionBiBundle/Resources/public/bower_components/font-awesome/fonts/FontAwesome.otf'
         output: 'fonts/FontAwesome.otf'
       font-awesome-eot:
-        inputs: '@EarlsLionBiBundle/Resources/public/components/font-awesome/fonts/fontawesome-webfont.eot'
+        inputs: '@EarlsLionBiBundle/Resources/public/bower_components/font-awesome/fonts/fontawesome-webfont.eot'
         output: 'fonts/fontawesome-webfont.eot'
       font-awesome-svg:
-        inputs: '@EarlsLionBiBundle/Resources/public/components/font-awesome/fonts/fontawesome-webfont.svg'
+        inputs: '@EarlsLionBiBundle/Resources/public/bower_components/font-awesome/fonts/fontawesome-webfont.svg'
         output: 'fonts/fontawesome-webfont.svg'
       font-awesome-ttf:
-        inputs: '@EarlsLionBiBundle/Resources/public/components/font-awesome/fonts/fontawesome-webfont.ttf'
+        inputs: '@EarlsLionBiBundle/Resources/public/bower_components/font-awesome/fonts/fontawesome-webfont.ttf'
         output: 'fonts/fontawesome-webfont.ttf'
       font-awesome-woff:
-        inputs: '@EarlsLionBiBundle/Resources/public/components/font-awesome/fonts/fontawesome-webfont.woff'
+        inputs: '@EarlsLionBiBundle/Resources/public/bower_components/font-awesome/fonts/fontawesome-webfont.woff'
         output: 'fonts/fontawesome-webfont.woff'
 
 orm:
@@ -63,14 +66,29 @@ orm:
     entity_managers:
         default:
             mappings:
-                EarlsLionBiBundle: ~
+                EarlsLionBiBundle: ~   
+                
+fos_rest:
+    param_fetcher_listener: true
+    body_listener: true
+    format_listener: true
+    view:
+        view_response_listener: 'force'
+        formats:
+            xml: true
+            json : true
+        templating_formats:
+            html: true
+        force_redirects:
+            html: true
+        failed_validation: HTTP_BAD_REQUEST
+        default_engine: twig
+    routing_loader:
+        default_format: json
 ```
 
 app/config/routing.yml
 ```yaml
-fos_js_routing:
-    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
-
 lion_bi_routing:
     resource: "@EarlsLionBiBundle/Resources/config/routing.yml"
 ```
