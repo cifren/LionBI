@@ -1,6 +1,6 @@
 <?php
 
-namespace Earls\LionBiBundle\Controller;
+namespace Earls\LionBiBundle\Controller\Rest;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -16,15 +16,30 @@ use Earls\LionBiBundle\Entity\LnbReportConfig;
 /**
  * @RouteResource("Report")
  */
-class LnbReportRestController extends FOSRestController
+class LnbReportConfigController extends FOSRestController
 {
-    public function cgetAction(){
+    /**
+     * Get a collection LnbReportConfig
+     * 
+     * @return View contains the collection
+     **/
+    public function cgetAction()
+    {
         $reports = $this->getDoctrine()->getRepository('Earls\LionBiBundle\Entity\LnbReportConfig')->findAll();
         $view = new View($reports);
         return $view;
     }
   
-    public function getAction($id){
+    /**
+     * Get a single of LnbReportCongig
+     * 
+     * @param $id   item id
+     * 
+     * @return View Contains the record
+     * 
+     **/ 
+    public function getAction($id)
+    {
         $report = $this->getDoctrine()->getRepository('Earls\LionBiBundle\Entity\LnbReportConfig')->find($id);
         if(!is_object($report)){
           throw $this->createNotFoundException();
@@ -33,19 +48,8 @@ class LnbReportRestController extends FOSRestController
         return $view;
     }
     
-    public function getTypeAction($id)
-    {
-        $report = $this->getDoctrine()->getRepository('Earls\LionBiBundle\Entity\LnbDataReport')->find($id);
-        if(!is_object($report)){
-          throw $this->createNotFoundException();
-        }
-        $type = $report->getLnbDataReportType();
-        
-        return $type;
-    }
-    
     /**
-     * Presents the form to use to create a new note.
+     * Presents the form to use to create a new LnbReportConfig.
      * 
      * @return FormTypeInterface
      */
@@ -54,6 +58,14 @@ class LnbReportRestController extends FOSRestController
         return $this->getForm();
     }
     
+    /**
+     * Create a new LnbReportCongig
+     * 
+     * @param $request   contains the form data
+     * 
+     * @return View Contains the record
+     * 
+     **/ 
     public function postAction(Request $request)
     {
         $entity = new LnbReportConfig();
@@ -73,6 +85,15 @@ class LnbReportRestController extends FOSRestController
         );
     }
     
+    /**
+     * Edit a LnbReportCongig
+     * 
+     * @param   $request    contains the form data
+     * @param   $id         LnbReportCongig id
+     * 
+     * @return View Contains the record
+     * 
+     **/ 
     public function putAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
@@ -98,7 +119,7 @@ class LnbReportRestController extends FOSRestController
     }
     
     /**
-     * Removes a note.
+     * Removes a LbnReportConfig.
      *
      * @param Request $request the request object
      * @param int     $id      the note id
@@ -122,7 +143,18 @@ class LnbReportRestController extends FOSRestController
         return $this->routeRedirectView('api_get_reports', array(), Response::HTTP_NO_CONTENT);
     }
     
-    protected function getForm($entity = null, $options = array(), $type = 'Earls\LionBiBundle\Form\DataReport\Type\ReportType'){
+    /**
+     * Create form
+     * 
+     * @param   object      $entity     object entity
+     * @param   array       $options    form options
+     * @param   string      $type       form type classname
+     * 
+     * @return object
+     * 
+     */ 
+    protected function getForm($entity = null, $options = array(), $type = 'Earls\LionBiBundle\Form\DataReport\Type\ReportConfigType')
+    {
         return $this->createForm($type, $entity, $options);
     }
 }

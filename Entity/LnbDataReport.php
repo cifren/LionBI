@@ -15,7 +15,7 @@ use JMS\Serializer\Annotation\VirtualProperty;
  * @ORM\Table(name="lnb_data_report")
  * @ORM\Entity
  * 
- * @ExclusionPolicy("all") 
+ * @ExclusionPolicy("all")
  */
 class LnbDataReport
 {
@@ -65,10 +65,17 @@ class LnbDataReport
     /**
      * @var LnbDataReportType $lnbDataReportType
      *
-     * @ORM\ManyToOne(targetEntity="LnbDataReportType")
-     * @ORM\JoinColumn(name="lnb_data_report_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="LnbDataReportType", inversedBy="lnbDataReport")
+     * @ORM\JoinColumn(name="lnb_data_report_type_id", referencedColumnName="id")
      */
     protected $lnbDataReportType;
+
+    /**
+     * @var ArrayCollection $lnbReportConfigs
+     *
+     * @ORM\OneToMany(targetEntity="LnbReportConfig", mappedBy="lnbDataReport")
+     */
+    protected $lnbReportConfigs;
 
     public function getId()
     {

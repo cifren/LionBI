@@ -36,6 +36,13 @@ class LnbDataReportType
      */
     protected $displayName;
 
+    /**
+     * @var ArrayCollection $lnbDataReports
+     *
+     * @ORM\OneToMany(targetEntity="LnbDataReport", mappedBy="lnbDataReportType")
+     */
+    protected $lnbDataReports;
+
     public function getId()
     {
         return $this->id;

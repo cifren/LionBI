@@ -30,11 +30,20 @@ class LnbReportConfig
     protected $displayName;
 
     /**
-     * @var array $conceptName
+     * @var LnbDataReport $lnbDataReport
      *
-     * @ORM\Column(name="json_config", type="array", nullable=true)
+     * @ORM\ManyToOne(targetEntity="LnbDataReport")
+     * @ORM\JoinColumn(name="lnb_data_report_id", referencedColumnName="id")
      */
-    protected $jsonConfig;
+    protected $lnbDataReport;
+
+    /**
+     * @var RhnReportDefinition $rhnReportDefinition
+     *
+     * @ORM\OneToOne(targetEntity="Earls\RhinoReportBundle\Entity\RhnReportDefinition")
+     * @ORM\JoinColumn(name="rhn_report_definition_id", referencedColumnName="id")
+     */
+    protected $rhnReportDefinition;
 
     public function getId()
     {
