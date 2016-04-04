@@ -1,0 +1,19 @@
+lionbi_reportData_list:
+    path: /list
+    defaults: { _controller: EarlsLionBiBundle:ReportData:list }
+    
+lionbi_reportData_editor:
+    path: /editor
+    defaults: { _controller: EarlsLionBiBundle:ReportData:editor }
+    
+lionbi_reportData_sqlEditor:
+    path: /sqleditor
+    defaults: { _controller: EarlsLionBiBundle:ReportData:sqlEditor }
+    
+lionbi_reportData_saveReportData:
+    path: /save_date_report
+    defaults: { _controller: EarlsLionBiBundle:ReportData:saveReportData }
+    
+lionbi_reportData_getJsonReportData:
+    path: /getJsonReportData/{id}
+    defaults: { _controller: EarlsLionBiBundle:ReportData:getJsonReportData }

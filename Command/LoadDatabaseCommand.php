@@ -30,18 +30,18 @@ class LoadDatabaseCommand extends AdvancedCommand
         $this->setStartTime();
         $this->em = $this->getContainer()->get('doctrine')->getManager();
 
-        $this->loadLnbDataReportType();
+        $this->loadLnbReportDataType();
         $this->setEndTime();
         $this->noticeTime();
     }
 
-    protected function loadLnbDataReportType()
+    protected function loadLnbReportDataType()
     {
         $yaml = new Parser();
-        $entitiesAry = $yaml->parse(file_get_contents(__DIR__ . '/../Resources/dump/initDataReportType.yml'));
+        $entitiesAry = $yaml->parse(file_get_contents(__DIR__ . '/../Resources/dump/initReportDataType.yml'));
 
-        foreach ($entitiesAry['DataReportType'] as $row) {
-            $entityName = 'Earls\LionBiBundle\Entity\LnbDataReportType';
+        foreach ($entitiesAry['ReportDataType'] as $row) {
+            $entityName = 'Earls\LionBiBundle\Entity\LnbReportDataType';
             $entity = $this->em->getRepository($entityName)->findOneBy(array('nameId' => $row['nameId']));
 
             if (!$entity) {
@@ -53,7 +53,7 @@ class LoadDatabaseCommand extends AdvancedCommand
             $this->em->persist($entity);
         }
         $this->em->flush();
-        $this->getLogger()->notice('DataReportType inserted');
+        $this->getLogger()->notice('ReportDataType inserted');
     }
 
 }

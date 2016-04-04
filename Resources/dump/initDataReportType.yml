@@ -1,4 +1,4 @@
-DataReportType:
+ReportDataType:
     0:
         nameId: 'sql'
         displayName: 'SQL'

@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,33 +12,36 @@
     
     {% block stylesheet %}
         {% stylesheets
-            '@EarlsLionBiBundle/Resources/public/bower_components/bootstrap/dist/css/bootstrap.min.css'
-            '@EarlsLionBiBundle/Resources/public/bower_components/metisMenu/dist/metisMenu.min.css'
-            '@EarlsLionBiBundle/Resources/public/bower_components/font-awesome/css/font-awesome.min.css'
+            '@EarlsLionBiBundle/Resources/public/node_modules/bootstrap/dist/css/bootstrap.min.css'
+            '@EarlsLionBiBundle/Resources/public/node_modules/metismenu/dist/metisMenu.min.css'
+            '@EarlsLionBiBundle/Resources/public/node_modules/font-awesome/css/font-awesome.min.css'
             '@EarlsLionBiBundle/Resources/public/css/sb-admin/timeline.css'
             '@EarlsLionBiBundle/Resources/public/css/sb-admin/sb-admin-2.css'
         %}
             <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
     {% endblock %}
+</head>
+
+<body>
+    {% block body %}
+        <div id="wrapper">
+            {{ block('topNav') }}
+            {{ block('rightContent') }}
+        </div>
+    {% endblock body %}
+    <!-- /#wrapper -->
+    
     {% block javascripts  %}
         {% javascripts
-            '@EarlsLionBiBundle/Resources/public/bower_components/jquery/dist/jquery.min.js'
-            '@EarlsLionBiBundle/Resources/public/bower_components/bootstrap/dist/js/bootstrap.min.js'
-            '@EarlsLionBiBundle/Resources/public/bower_components/metisMenu/dist/metisMenu.min.js'
+            '@EarlsLionBiBundle/Resources/public/node_modules/jquery/dist/jquery.min.js'
+            '@EarlsLionBiBundle/Resources/public/node_modules/bootstrap/dist/js/bootstrap.min.js'
+            '@EarlsLionBiBundle/Resources/public/node_modules/metismenu/dist/metisMenu.min.js'
             '@EarlsLionBiBundle/Resources/public/js/sb-admin/sb-admin-2.js'
         %}
             <script type="text/javascript" src="{{ asset_url }}"></script>
         {% endjavascripts  %}
     {% endblock %}
-</head>
-
-<body>
-    <div id="wrapper"></div>
-        {{ block('topNav') }}
-        {{ block('rightContent') }}
-    </div>
-    <!-- /#wrapper -->
 </body>
 
 </html>

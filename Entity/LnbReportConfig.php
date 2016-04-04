@@ -30,12 +30,12 @@ class LnbReportConfig
     protected $displayName;
 
     /**
-     * @var LnbDataReport $lnbDataReport
+     * @var LnbReportData $lnbReportData
      *
-     * @ORM\ManyToOne(targetEntity="LnbDataReport")
-     * @ORM\JoinColumn(name="lnb_data_report_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="LnbReportData")
+     * @ORM\JoinColumn(name="lnb_report_data_id", referencedColumnName="id")
      */
-    protected $lnbDataReport;
+    protected $lnbReportData;
 
     /**
      * @var RhnReportDefinition $rhnReportDefinition

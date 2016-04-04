@@ -1,5 +1,11 @@
-users : 
+rest_api_v1_reportConfig : 
   type: rest
   resource:     "EarlsLionBiBundle:Rest/LnbReportConfig"
   defaults: {_format: json}
-  name_prefix:  api_
+  name_prefix:  api_v1_LnbReportConfig_
+  
+rest_api_v1_reportData : 
+  type: rest
+  resource:     "EarlsLionBiBundle:Rest/LnbReportData"
+  defaults: {_format: json}
+  name_prefix:  api_v1_LnbReportData_

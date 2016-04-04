@@ -153,7 +153,7 @@ class LnbReportConfigController extends FOSRestController
      * @return object
      * 
      */ 
-    protected function getForm($entity = null, $options = array(), $type = 'Earls\LionBiBundle\Form\DataReport\Type\ReportConfigType')
+    protected function getForm($entity = null, $options = array(), $type = 'Earls\LionBiBundle\Form\ReportData\Type\ReportConfigType')
     {
         return $this->createForm($type, $entity, $options);
     }

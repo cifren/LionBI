@@ -1,0 +1,27 @@
+{% extends 'EarlsLionBiBundle:Admin:layout.html.twig' %}
+
+{% block javascripts  %}
+    {{parent()}}
+    {% javascripts
+        '@EarlsLionBiBundle/Resources/public/bower_components/react/react-with-addons.min.js'
+        '@EarlsLionBiBundle/Resources/public/bower_components/react/react-dom.min.js'
+        '@EarlsLionBiBundle/Resources/public/ReportDataController/Editor/app.js'
+        '@EarlsLionBiBundle/Resources/public/ReportDataController/Editor/controller.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts  %}
+{% endblock %}
+
+{% block rightContent %}
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Data Editor</h1>
+            </div>
+        </div>
+
+        <div ng-app="reportEditor" ng-controller="sqlCtrl">
+            <div ng-view></div>
+        </div>
+    </div>
+{% endblock %}

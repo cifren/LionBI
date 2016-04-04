@@ -28,7 +28,7 @@ class ReportController extends Controller
     public function EditorAction(Request $request)
     {
         $entity = new LnbReportConfig();
-        $form = $this->createForm('Earls\LionBiBundle\Form\DataReport\Type\ReportType', $entity, array('method' => 'PUT'));
+        $form = $this->createForm('Earls\LionBiBundle\Form\ReportData\Type\ReportType', $entity, array('method' => 'PUT'));
         $form->add('save', SubmitType::class, array('label' => 'Create'));
         
         $form->handleRequest($request);
