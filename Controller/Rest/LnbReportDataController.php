@@ -111,7 +111,7 @@ class LnbReportDataController extends FOSRestController
             $em->persist($entity);
             $em->flush();
     
-            return $view = new View($entity);;
+            return new View($entity);
         }
         
         return array(

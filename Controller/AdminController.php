@@ -14,7 +14,7 @@ class AdminController extends Controller
 
     public function defaultAction()
     {
-        return $this->render('EarlsLionBiBundle:Admin/default.html.twig');
+        return $this->render('EarlsLionBiBundle:Admin:default.html.twig');
     }
 
 }

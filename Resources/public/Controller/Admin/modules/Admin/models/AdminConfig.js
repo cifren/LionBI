@@ -30,7 +30,7 @@ export default class AdminConfig {
     if (this._title) {
       return this._title;
     } else {
-      return this._adminName;
+      return this.adminName;
     }
   }
 
@@ -51,8 +51,17 @@ export default class AdminConfig {
       return this._restName;
     }
       
-    return this._adminName;
+    return this.adminName;
   }
+  
+  set formName(formName){
+    this._formName = formName;
+  }
+  
+  get formName(){
+    return (this._formName)?this._formName:this.restName;
+  }
+  
   configureFormFields(formMapper) {}
 
   configureListFields(listMapper) {}

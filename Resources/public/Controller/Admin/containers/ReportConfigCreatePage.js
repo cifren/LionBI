@@ -1,11 +1,10 @@
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import * as ReportConfigActions from "../actions/reportConfigAction";
 import CreatePage from "../modules/Admin/components/CreatePage";
 import * as AdminActions from "../modules/Admin/actions/adminAction";
+import { routerActions } from "react-router-redux";
 
 function mapStateToProps(state) {
-  console.log(state)
   return {
     adminConfig: state.reportAdminConfig.adminConfig.init(),
     pool: state.poolReducer.pool,
@@ -15,7 +14,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(Object.assign({}, ReportConfigActions, AdminActions), dispatch)
+    actions: bindActionCreators(Object.assign({}, AdminActions, routerActions), dispatch)
   };
 }
 

@@ -10,6 +10,7 @@ export default class ReportAdminConfig extends AdminConfig {
     "display_name": {
       "type": "string",
       "description": "What name do you want ?",
+      "title": "Display name",
       "default": null
     }
   };
@@ -21,10 +22,11 @@ export default class ReportAdminConfig extends AdminConfig {
     this.restUrl = "http://lionbi-cifren.c9users.io/api/v1";
     this.restName = 'reports';
     this.urlPrefix = 'admin/report';
+    this.formName = 'reportConfig';
   }
   
   configureFormFields(formMapper) {
-    formMapper.add('display_name');
+    formMapper.add('display_name', 'text', {"required": true});
   }
 
   configureDatagridFilters(datagridMapper) {
@@ -33,7 +35,7 @@ export default class ReportAdminConfig extends AdminConfig {
 
   configureListFields(listMapper) {
     listMapper
-      .add('id')
+      .addIdentifier('id')
       .add('display_name', {'label': "Display Name"});
   }
 

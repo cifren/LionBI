@@ -2,7 +2,6 @@ import React, {PropTypes} from "react";
 import {Link} from "react-router";
 import Loading from "../modules/Admin/components/Loading";
 import {loadEmptyReportData} from "../actions/reportData";
-import {browserHistory} from "react-router";
 
 export default class ReportDataEdit extends React.Component {
   static propTypes = {
@@ -19,6 +18,7 @@ export default class ReportDataEdit extends React.Component {
   
   componentDidMount(){
     const id = this.props.params.id;
+    
     //on edit
     if(id){
       // fetch

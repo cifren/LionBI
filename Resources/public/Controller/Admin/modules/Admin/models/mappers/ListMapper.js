@@ -5,6 +5,12 @@ export default class ListMapper extends BaseMapper {
     super(properties);
   }
   
+  addIdentifier(name, options){
+    options = {...options, identifier: true};
+    super.add(name, null, options);
+    return this;
+  }
+  
   add(name, options){
     super.add(name, null, options);
     return this;

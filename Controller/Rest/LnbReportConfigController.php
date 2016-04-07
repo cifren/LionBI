@@ -10,8 +10,11 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations;
 use FOS\RestBundle\View\View;
 use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Util\Codes;
 
 use Earls\LionBiBundle\Entity\LnbReportConfig;
+use Earls\LionBiBundle\Form\Handler\RestHandler;
+use Earls\LionBiBundle\Form\Type\ReportConfigType;
 
 /**
  * @RouteResource("Report")
@@ -27,6 +30,7 @@ class LnbReportConfigController extends FOSRestController
     {
         $reports = $this->getDoctrine()->getRepository('Earls\LionBiBundle\Entity\LnbReportConfig')->findAll();
         $view = new View($reports);
+        
         return $view;
     }
   
@@ -44,45 +48,23 @@ class LnbReportConfigController extends FOSRestController
         if(!is_object($report)){
           throw $this->createNotFoundException();
         }
+        
         $view = new View($report);
         return $view;
     }
     
     /**
-     * Presents the form to use to create a new LnbReportConfig.
-     * 
-     * @return FormTypeInterface
-     */
-    public function newAction()
-    {
-        return $this->getForm();
-    }
-    
-    /**
      * Create a new LnbReportCongig
      * 
-     * @param $request   contains the form data
+     * @param $request   contains the form data ex: {"report_config":{"displays_name": "lokqdiq"}}
      * 
      * @return View Contains the record
      * 
      **/ 
     public function postAction(Request $request)
-    {
-        $entity = new LnbReportConfig();
-        $form = $this->getForm($entity);
-        $form->handleRequest($request);
-        
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-            
-            return $this->routeRedirectView('api_get_report', array('id' => $entity->getId()));
-        }
-        
-        return array(
-            'form' => $form,
-        );
+    {   
+        $handler = $this->getHandler($request);
+        return $handler->processForm(new LnbReportConfig());
     }
     
     /**
@@ -103,19 +85,10 @@ class LnbReportConfigController extends FOSRestController
         if(!is_object($entity)){
           throw $this->createNotFoundException();
         }
-        $form = $this->getForm($entity, array('method' => 'PUT'));
-        $form->handleRequest($request);
         
-        if ($form->isValid()) {
-            $em->persist($entity);
-            $em->flush();
-    
-            return $this->routeRedirectView('api_get_report', array('id' => $entity->getId()));
-        }
+        $handler = $this->getHandler($request);
         
-        return array(
-            'form' => $form,
-        );
+        return $handler->processForm($entity);
     }
     
     /**
@@ -140,7 +113,7 @@ class LnbReportConfigController extends FOSRestController
         
         // There is a debate if this should be a 404 or a 204
         // see http://leedavis81.github.io/is-a-http-delete-requests-idempotent/
-        return $this->routeRedirectView('api_get_reports', array(), Response::HTTP_NO_CONTENT);
+        return $this->routeRedirectView('api_v1_LnbReportConfig_get_reports', array(), Response::HTTP_NO_CONTENT);
     }
     
     /**
@@ -153,8 +126,17 @@ class LnbReportConfigController extends FOSRestController
      * @return object
      * 
      */ 
-    protected function getForm($entity = null, $options = array(), $type = 'Earls\LionBiBundle\Form\ReportData\Type\ReportConfigType')
+    protected function getHandler(Request $request)
     {
-        return $this->createForm($type, $entity, $options);
+        $handler = new RestHandler(
+            $this->container->get('router'),
+            $this->container->get('form.factory'),
+            $request,
+            $this->getDoctrine(),
+            ReportConfigType::class,
+            'api_v1_LnbReportConfig_get_report'
+            );
+            
+        return $handler;
     }
 }

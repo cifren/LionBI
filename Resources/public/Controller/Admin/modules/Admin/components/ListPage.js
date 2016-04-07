@@ -15,6 +15,10 @@ export default class ListPage extends React.Component {
     }
   }
   
+  componentWillUnmount (){
+    this.props.actions.poolReset();
+  }
+  
   render() {
     const pool = this.props.pool;
     

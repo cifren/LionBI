@@ -7,6 +7,7 @@ import ReportDataListPage from "./containers/ReportDataListPage";
 import ReportDataEditPage from "./containers/ReportDataEditPage";
 import ReportConfigListPage from "./containers/ReportConfigListPage";
 import ReportConfigCreatePage from "./containers/ReportConfigCreatePage";
+import ReportConfigEditPage from "./containers/ReportConfigEditPage";
 
 const common = {
   navigation: NavigationPage,
@@ -27,6 +28,8 @@ export default (
           components={{...common, content: ReportConfigListPage}} />
       <Route name="report_create" path="report/create"
           components={{...common, content: ReportConfigCreatePage}} />
+      <Route name="report_edit" path="report/edit/:id"
+          components={{...common, content: ReportConfigEditPage}} />
       <Route path="*"
           components={{...common, content: _ => <h1>Page not found.</h1>}} />
     </Route>
