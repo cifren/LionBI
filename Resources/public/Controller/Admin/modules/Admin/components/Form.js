@@ -21,6 +21,7 @@ export default class Form extends React.Component {
     if(!pool.restData){
       return false;
     }
+    console.log(this.props)
     
     return (
       <div>

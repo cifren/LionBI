@@ -3,13 +3,25 @@ import Form from "./Form";
 import {isEqual} from 'lodash';
 
 export default class EditPage extends React.Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      pool: {}
+    };
+  }
+  
   componentDidMount() {
+    this.props.actions.poolReset();
     const adminConfig = this.props.adminConfig;
     this.props.actions.getPool(adminConfig, this.props.adminObject);
     this.props.actions.fetchObject(adminConfig.restUrl, adminConfig.restName, this.props.params.id);
   }
   
   componentWillReceiveProps(nextProps){
+    if(!isEqual(this.props.pool, nextProps.pool)){
+      this.setState({pool: nextProps.pool});
+    }
+    
     if(!isEqual(this.props.adminObject, nextProps.adminObject)){
       this.props.actions.setObject(nextProps.adminObject);
     }
@@ -50,7 +62,6 @@ export default class EditPage extends React.Component {
   
   componentWillUnmount (){
     this.props.actions.restReset();
-    this.props.actions.poolReset();
   }
   
   render() {
@@ -58,7 +69,7 @@ export default class EditPage extends React.Component {
       <div>
         <Form 
           actions={this.props.actions} 
-          pool={this.props.pool} 
+          pool={this.state.pool}
           onSubmit={this.onSubmit.bind(this)} 
           onDelete={this.onDelete.bind(this)}
           ></Form>

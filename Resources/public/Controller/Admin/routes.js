@@ -5,9 +5,7 @@ import NavigationPage from "./containers/NavigationPage";
 import DashboardPage from "./containers/DashboardPage";
 import ReportDataListPage from "./containers/ReportDataListPage";
 import ReportDataEditPage from "./containers/ReportDataEditPage";
-import ReportConfigListPage from "./containers/ReportConfigListPage";
-import ReportConfigCreatePage from "./containers/ReportConfigCreatePage";
-import ReportConfigEditPage from "./containers/ReportConfigEditPage";
+import ReportConfigAdminPage from "./containers/ReportConfigAdminPage";
 
 const common = {
   navigation: NavigationPage,
@@ -24,12 +22,8 @@ export default (
           components={{...common, content: ReportDataEditPage}} />
       <Route name="data_create" path="data/create"
           components={{...common, content: ReportDataEditPage}} />
-      <Route name="report_list" path="report/list"
-          components={{...common, content: ReportConfigListPage}} />
-      <Route name="report_create" path="report/create"
-          components={{...common, content: ReportConfigCreatePage}} />
-      <Route name="report_edit" path="report/edit/:id"
-          components={{...common, content: ReportConfigEditPage}} />
+      <Route name="report_admin" path="report/:adminPageType(/:id)"
+          components={{...common, content: ReportConfigAdminPage}} />
       <Route path="*"
           components={{...common, content: _ => <h1>Page not found.</h1>}} />
     </Route>

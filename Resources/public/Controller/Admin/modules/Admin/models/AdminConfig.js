@@ -62,13 +62,17 @@ export default class AdminConfig {
     return (this._formName)?this._formName:this.restName;
   }
   
+  // form page, include create page and edit page
   configureFormFields(formMapper) {}
 
+  // filter on the list page
+  configureDatagridFilters(datagridMapper) {}
+  
+  // list page
   configureListFields(listMapper) {}
 
+  // show page 
   configureShowFields(showMapper) {}
-
-  validate() {}
 
   configureRoutes(routeCollection) {}
 
