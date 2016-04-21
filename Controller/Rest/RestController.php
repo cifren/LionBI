@@ -171,7 +171,31 @@ class RestController extends FOSRestController
         throw $this->createNotFoundException();
       }
       
-      $handler = $this->getHandler($request);
+      $handler = $this->getHandler($request, "PUT");
+      
+      return $handler->processForm($entity);
+  }
+  
+  /**
+   * Edit a LnbReportCongig
+   * 
+   * @param   $request    contains the form data
+   * @param   $id         LnbReportCongig id
+   * 
+   * @return View Contains the record
+   * 
+   **/ 
+  public function patchAction(Request $request, $id)
+  {
+      $em = $this->getDoctrine()->getManager();
+      
+      $entity = $em->getRepository($this->getClassName())->find($id);
+      
+      if(!is_object($entity)){
+        throw $this->createNotFoundException();
+      }
+      
+      $handler = $this->getHandler($request, "PATCH");
       
       return $handler->processForm($entity);
   }
@@ -211,7 +235,7 @@ class RestController extends FOSRestController
    * @return object
    * 
    */ 
-  protected function getHandler(Request $request)
+  protected function getHandler(Request $request, $method = null)
   {
       $handler = new RestHandler(
           $this->container->get('router'),
@@ -219,7 +243,8 @@ class RestController extends FOSRestController
           $request,
           $this->getDoctrine(),
           $this->getFormClass(),
-          $this->getGetRoute()
+          $this->getGetRoute(),
+          $method
           );
           
       return $handler;
