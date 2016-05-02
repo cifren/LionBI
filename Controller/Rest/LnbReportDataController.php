@@ -14,15 +14,23 @@ use Earls\LionBiBundle\Form\Type\ReportDataType;
 class LnbReportDataController extends RestController
 {
     protected $className = LnbReportData::class;
-    protected $getRoute ="api_v1_LnbReportData_get_reportdata";
-    protected $cGetRoute = "api_v1_LnbReportData_get_reportdatas";
+    protected $getRoute = 'api_v1_LnbReportData_get_reportdata';
+    protected $cGetRoute = 'api_v1_LnbReportData_get_reportdatas';
     protected $formClass = ReportDataType::class;
-    
+
   /**
    * @Route("/reportdatas/submit/form", methods={"GET", "POST"})
-   */ 
+   */
   public function submitformAction(Request $request)
   {
-    return parent::submitformAction($request);
+      return parent::submitformAction($request);
   }
+
+    public function getColumnsAction(Request $request, $id)
+    {
+        $manager = $this->get('report_data_manager');
+        $reportData = $this->getDoctrine()->getRepository($this->getClassName())->find($id);
+
+        return $manager->getColumns($reportData)->getArray();
+    }
 }

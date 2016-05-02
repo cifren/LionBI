@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\View\View;
 
 /**
- * Description of RestHandler
+ * Description of RestHandler.
  *
  * @author cifren
  */
@@ -19,33 +19,37 @@ class RestHandler
     protected $doctrine;
     protected $formClass;
     protected $restGetRoute;
-    
-    public function __construct($router, $formFactory, $request, $doctrine, $formClass, $restGetRoute){
+    protected $method;
+
+    public function __construct($router, $formFactory, $request, $doctrine, $formClass, $restGetRoute, $method = null)
+    {
         $this->router = $router;
         $this->formFactory = $formFactory;
         $this->request = $request;
         $this->doctrine = $doctrine;
         $this->formClass = $formClass;
         $this->restGetRoute = $restGetRoute;
+        $this->method = $method;
     }
-    
+
     /**
      * @return Response | View
-     */ 
-    public function processForm($entity) {
-        $form = $this->createForm($this->formClass, $entity, $entity->getId()?array('method' => "PUT"):array());
+     */
+    public function processForm($entity)
+    {
+        $form = $this->createForm($this->formClass, $entity, $this->method ? array('method' => $this->method) : array());
         $form->handleRequest($this->request);
-        
+
         $statusCode = $entity->getId() ? 204 : 201;
-        
+
         if ($form->isValid()) {
             $em = $this->doctrine->getManager();
             $em->persist($entity);
             $em->flush();
             $view = new View();
-            
+
             if (201 === $statusCode) {
-                $view->setData(array('id'=>$entity->getId()));
+                $view->setData(array('id' => $entity->getId()));
                 $view->setLocation(
                     $this->generateUrl(
                         $this->restGetRoute, array('id' => $entity->getId()),
@@ -56,10 +60,10 @@ class RestHandler
 
             return $view;
         }
-        
+
         return View::create($form, 400);
     }
-    
+
     /**
      * Creates and returns a Form instance from the type of the form.
      *
@@ -73,8 +77,9 @@ class RestHandler
     {
         return $this->formFactory->create($type, $data, $options);
     }
-    
-    protected function generateUrl($route, $parameters = array(), $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH){
+
+    protected function generateUrl($route, $parameters = array(), $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
+    {
         return $this->router->generate($route, $parameters, $referenceType);
     }
 }

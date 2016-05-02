@@ -3,25 +3,21 @@
 namespace Earls\LionBiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
-use JMS\Serializer\Annotation\Groups;
-use JMS\Serializer\Annotation\VirtualProperty;
 
 /**
- * Earls\LionBiBundle\Entity\LnbReportData
+ * Earls\LionBiBundle\Entity\LnbReportData.
  *
  * @ORM\Table(name="lnb_report_data")
  * @ORM\Entity
- * 
+ *
  * @ExclusionPolicy("all")
  */
 class LnbReportData
 {
-
     /**
-     * @var integer $id
+     * @var int
      *
      * @ORM\Column(type="integer", options={"unsigned":true})
      * @ORM\Id
@@ -31,7 +27,7 @@ class LnbReportData
     protected $id;
 
     /**
-     * @var string $displayName
+     * @var string
      *
      * @ORM\Column(name="display_name", type="text", length=100)
      * @Expose
@@ -39,15 +35,15 @@ class LnbReportData
     protected $displayName;
 
     /**
-     * @var string $sqlStatement
+     * @var string
      *
-     * @ORM\Column(name="sqlStatement", type="text", nullable=true)
+     * @ORM\Column(name="sql_statement", type="text", nullable=true)
      * @Expose
      */
     protected $sqlStatement;
 
     /**
-     * @var string $entityName
+     * @var string
      *
      * @ORM\Column(name="entity_name", type="text", nullable=true)
      * @Expose
@@ -55,7 +51,7 @@ class LnbReportData
     protected $entityName;
 
     /**
-     * @var int $entityId
+     * @var int
      *
      * @ORM\Column(name="entity_id", type="integer", nullable=true)
      * @Expose
@@ -63,7 +59,7 @@ class LnbReportData
     protected $entityId;
 
     /**
-     * @var LnbReportDataType $lnbReportDataType
+     * @var LnbReportDataType
      *
      * @ORM\ManyToOne(targetEntity="LnbReportDataType", inversedBy="lnbReportData")
      * @ORM\JoinColumn(name="lnb_report_data_type_id", referencedColumnName="id")
@@ -71,7 +67,7 @@ class LnbReportData
     protected $lnbReportDataType;
 
     /**
-     * @var ArrayCollection $lnbReportConfigs
+     * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="LnbReportConfig", mappedBy="lnbReportData")
      */
@@ -110,30 +106,35 @@ class LnbReportData
     public function setDisplayName($displayName)
     {
         $this->displayName = $displayName;
+
         return $this;
     }
 
     public function setSqlStatement($sqlStatement)
     {
         $this->sqlStatement = $sqlStatement;
+
         return $this;
     }
 
     public function setEntityName($entityName)
     {
         $this->entityName = $entityName;
+
         return $this;
     }
 
     public function setEntityId($entityId)
     {
         $this->entityId = $entityId;
+
         return $this;
     }
 
     public function setLnbReportDataType(LnbReportDataType $lnbReportDataType)
     {
         $this->lnbReportDataType = $lnbReportDataType;
+
         return $this;
     }
 
@@ -143,8 +144,7 @@ class LnbReportData
             'id' => $this->getId(),
             'displayName' => $this->getDisplayName(),
             'sqlStatement' => $this->getSqlStatement(),
-            'lnbReportDataType' => $this->getLnbReportDataType()->getId()
+            'lnbReportDataType' => $this->getLnbReportDataType()->getId(),
         );
     }
-
 }

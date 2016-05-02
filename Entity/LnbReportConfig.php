@@ -3,18 +3,18 @@
 namespace Earls\LionBiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Earls\RhinoReportBundle\Entity\RhnReportDefinition;
 
 /**
- * Earls\LionBiBundle\Entity\LnbReportConfig
+ * Earls\LionBiBundle\Entity\LnbReportConfig.
  *
  * @ORM\Table(name="lnb_report_config")
  * @ORM\Entity
  */
 class LnbReportConfig
 {
-
     /**
-     * @var integer $id
+     * @var int
      *
      * @ORM\Column(type="integer", options={"unsigned":true})
      * @ORM\Id
@@ -23,14 +23,14 @@ class LnbReportConfig
     protected $id;
 
     /**
-     * @var string $displayName
+     * @var string
      *
      * @ORM\Column(name="display_name", type="text")
      */
     protected $displayName;
 
     /**
-     * @var LnbReportData $lnbReportData
+     * @var LnbReportData
      *
      * @ORM\ManyToOne(targetEntity="LnbReportData")
      * @ORM\JoinColumn(name="lnb_report_data_id", referencedColumnName="id")
@@ -38,12 +38,17 @@ class LnbReportConfig
     protected $lnbReportData;
 
     /**
-     * @var RhnReportDefinition $rhnReportDefinition
+     * @var RhnReportDefinition
      *
-     * @ORM\OneToOne(targetEntity="Earls\RhinoReportBundle\Entity\RhnReportDefinition")
+     * @ORM\OneToOne(targetEntity="Earls\RhinoReportBundle\Entity\RhnReportDefinition", cascade={"all"})
      * @ORM\JoinColumn(name="rhn_report_definition_id", referencedColumnName="id")
      */
     protected $rhnReportDefinition;
+
+    public function __construct()
+    {
+        $this->rhnReportDefinition = new RhnReportDefinition();
+    }
 
     public function getId()
     {
@@ -70,4 +75,15 @@ class LnbReportConfig
         $this->displayName = $displayName;
     }
 
+    public function getLnbReportData()
+    {
+        return $this->lnbReportData;
+    }
+
+    public function setLnbReportData($lnbReportData)
+    {
+        $this->lnbReportData = $lnbReportData;
+
+        return $this;
+    }
 }

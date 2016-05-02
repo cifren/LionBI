@@ -5,16 +5,15 @@ namespace Earls\LionBiBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Earls\LionBiBundle\Entity\LnbReportDataType
+ * Earls\LionBiBundle\Entity\LnbReportDataType.
  *
  * @ORM\Table(name="lnb_report_data_type", indexes={@ORM\Index(name="name_id_idx", columns={"name_id"})})
  * @ORM\Entity
  */
 class LnbReportDataType
 {
-
     /**
-     * @var integer $id
+     * @var int
      *
      * @ORM\Column(type="integer", options={"unsigned":true})
      * @ORM\Id
@@ -23,21 +22,21 @@ class LnbReportDataType
     protected $id;
 
     /**
-     * @var string $nameId
+     * @var string
      *
      * @ORM\Column(name="name_id", type="string", length=10)
      */
     protected $nameId;
 
     /**
-     * @var string $displayName
+     * @var string
      *
      * @ORM\Column(name="display_name", type="string", length=100)
      */
     protected $displayName;
 
     /**
-     * @var ArrayCollection $lnbReportDatas
+     * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="LnbReportData", mappedBy="lnbReportDataType")
      */
@@ -61,13 +60,14 @@ class LnbReportDataType
     public function setNameId($nameId)
     {
         $this->nameId = $nameId;
+
         return $this;
     }
 
     public function setDisplayName($displayName)
     {
         $this->displayName = $displayName;
+
         return $this;
     }
-
 }

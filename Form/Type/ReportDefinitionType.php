@@ -7,21 +7,18 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class ReportDataType extends AbstractType
+class ReportDefinitionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('displayName', TextType::class, array(
-                'label' => 'Name',
-            ))
-            ->add('sqlStatement', TextType::class)
+            ->add('template', TextType::class)
         ;
     }
 
     public function getBlockPrefix()
     {
-        return 'reportData';
+        return 'reportDefinition';
     }
 
     public function configureOptions(OptionsResolver $resolver)

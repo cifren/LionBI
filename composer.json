@@ -10,21 +10,22 @@
         {
             "name": "Francis Le Coq",
             "email": "flecoq@earls.ca"
-        },
-        {
-            "name": "Dev earls",
-            "homepage": "http:\\www.earls.ca"
         }
     ],
     "require": {
         "php": ">=5.3.3",
-        "symfony/framework-bundle": "~3.0",
-        "earls/oxpecker-data-bundle": "dev-master"
+        "symfony/framework-bundle": "~3.0"
+    },
+    "require-dev": {
+        "fabpot/php-cs-fixer": "^1.11"
     },
     "autoload": {
         "psr-0": {
             "Earls\\LionBiBundle": ""
         }
     },
-    "target-dir": "Earls/LionBiBundle"
+    "target-dir": "Earls/LionBiBundle",
+    "scripts": {
+        "php_fixer": "vendor/fabpot/php-cs-fixer/php-cs-fixer fix"
+    }
 }

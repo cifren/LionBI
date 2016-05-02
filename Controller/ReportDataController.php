@@ -10,18 +10,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Earls\LionBiBundle\Model\CustomJsonResponse;
 
 /**
- * 
  * @author cifren
  */
 class ReportDataController extends Controller
 {
-
     public function listAction()
     {
         $list = $this->getEntityManager()->getRepository('Earls\LionBiBundle\Entity\LnbReportData')->findAll();
 
         return $this->render('EarlsLionBiBundle:Admin/ReportData:list.html.twig', array(
-                    'items' => $list
+                    'items' => $list,
         ));
     }
 
@@ -36,7 +34,7 @@ class ReportDataController extends Controller
         $form = $this->createForm(new ReportDataType(), $entity);
 
         return $this->render('EarlsLionBiBundle:Admin/ReportData:sqlEditor.html.twig', array(
-                    'form' => $form->createView()
+                    'form' => $form->createView(),
         ));
     }
 
@@ -107,5 +105,4 @@ class ReportDataController extends Controller
 
         return $em;
     }
-
 }

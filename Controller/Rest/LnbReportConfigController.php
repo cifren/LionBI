@@ -13,16 +13,16 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class LnbReportConfigController extends RestController
 {
-  protected $className = LnbReportConfig::class;
-  protected $getRoute ="api_v1_LnbReportConfig_get_report";
-  protected $cGetRoute = "api_v1_LnbReportConfig_get_reports";
-  protected $formClass = ReportConfigType::class;
-    
+    protected $className = LnbReportConfig::class;
+    protected $getRoute = 'api_v1_LnbReportConfig_get_report';
+    protected $cGetRoute = 'api_v1_LnbReportConfig_get_reports';
+    protected $formClass = ReportConfigType::class;
+
   /**
    * @Route("/reports/submit/form", methods={"GET", "POST"})
-   */ 
+   */
   public function submitformAction(Request $request)
   {
-    return parent::submitformAction($request);
+      return parent::submitformAction($request);
   }
 }
