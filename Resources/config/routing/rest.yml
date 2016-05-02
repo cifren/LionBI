@@ -1,11 +1,29 @@
-rest_api_v1_reportConfig : 
+rest_api_v1_reportConfig: 
   type: rest
   resource:     "EarlsLionBiBundle:Rest/LnbReportConfig"
   defaults: {_format: json}
   name_prefix:  api_v1_LnbReportConfig_
   
-rest_api_v1_reportData : 
+rest_api_v1_reportData: 
   type: rest
   resource:     "EarlsLionBiBundle:Rest/LnbReportData"
   defaults: {_format: json}
   name_prefix:  api_v1_LnbReportData_
+  
+rest_api_v1_reportDefinition: 
+  type: rest
+  resource:     "EarlsLionBiBundle:Rest/LnbReportDefinition"
+  defaults: {_format: json}
+  name_prefix:  api_v1_LnbReportDefinition_
+  
+rest_api_v1_reportFilter: 
+  type: rest
+  resource:     "EarlsLionBiBundle:Rest/LnbReportFilter"
+  defaults: {_format: json}
+  name_prefix:  api_v1_LnbReportFilter_
+  
+rest_api_v1_reportModule: 
+  type: rest
+  resource:     "EarlsLionBiBundle:Rest/LnbReportTable"
+  defaults: {_format: json}
+  name_prefix:  api_v1_LnbReportTable_

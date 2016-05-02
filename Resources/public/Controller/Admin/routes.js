@@ -3,9 +3,15 @@ import { Route, IndexRoute, Redirect } from "react-router";
 import App from "./containers/App";
 import NavigationPage from "./containers/NavigationPage";
 import DashboardPage from "./containers/DashboardPage";
-import ReportDataListPage from "./containers/ReportDataListPage";
-import ReportDataEditPage from "./containers/ReportDataEditPage";
-import ReportConfigAdminPage from "./containers/ReportConfigAdminPage";
+import ReportAdminPage from "./containers/ReportAdminPage";
+import ReportConfigEditPage from "./containers/ReportConfigEditPage";
+import DataEditPage from "./containers/DataEditPage";
+import DataAdminPage from "./containers/DataAdminPage";
+import ModuleChartEditPage from "./containers/ModuleChartEditPage";
+import ModuleTableEditPage from "./containers/ModuleTableEditPage";
+import ModuleChoiceCreate from "./components/ModuleChoiceCreate";
+import GroupCellEdit from "./components/ModuleTableEdit/GroupCellEdit";
+import RowCellEdit from "./components/ModuleTableEdit/GroupCellEdit";
 
 const common = {
   navigation: NavigationPage,
@@ -16,14 +22,31 @@ export default (
     <Redirect from="/" to="/admin" />
     <Route path="/admin" component={App}>
       <IndexRoute components={{...common, content: DashboardPage}} />
-      <Route name="data_list" path="data/list"
-          components={{...common, content: ReportDataListPage}} />
-      <Route name="data_edit" path="data/edit/:id"
-          components={{...common, content: ReportDataEditPage}} />
-      <Route name="data_create" path="data/create"
-          components={{...common, content: ReportDataEditPage}} />
-      <Route name="report_admin" path="report/:adminPageType(/:id)"
-          components={{...common, content: ReportConfigAdminPage}} />
+      <Route name="data_admin_edit" path="data/edit/:id"
+          components={{...common, content: DataEditPage}} />
+      <Route name="data_admin" path="data/:adminPageType(/:id)"
+          components={{...common, content: DataAdminPage}} />
+      {/* "report_admin_edit" needs to be before "report_admin" */}
+      <Route path="report">
+        <Route path="module">
+          <Route name="module_create_choice" path="choice/:reportId"
+              components={{...common, content: ModuleChoiceCreate}} />
+          <Route name="module_chart_edit" path="chart/:moduleId"
+              components={{...common, content: ModuleChartEditPage}} />
+          <Route path="table">
+            <Route path="row/:rowId"
+                components={{...common, content: RowCellEdit}} />
+            <Route path="group/:groupId"
+                components={{...common, content: GroupCellEdit}} />
+            <Route name="module_table_edit" path=":tableId"
+                components={{...common, content: ModuleTableEditPage}} />
+          </Route>
+        </Route>
+        <Route name="report_admin_edit" path="edit/:id"
+            components={{...common, content: ReportConfigEditPage}} />
+        <Route name="report_admin" path=":adminPageType(/:id)"
+            components={{...common, content: ReportAdminPage}} />
+      </Route>
       <Route path="*"
           components={{...common, content: _ => <h1>Page not found.</h1>}} />
     </Route>

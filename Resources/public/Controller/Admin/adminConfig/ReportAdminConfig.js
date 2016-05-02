@@ -1,4 +1,5 @@
-import AdminConfig from "../modules/Admin/models/AdminConfig"
+import {AdminConfig} from "sound-admin";
+import {isEmpty} from 'lodash';
 
 export default class ReportAdminConfig extends AdminConfig {
   static properties = {
@@ -7,10 +8,21 @@ export default class ReportAdminConfig extends AdminConfig {
       "description": "Index",
       "default": null
     },
+    "lnb_report_data_id": {
+      "type": "integer",
+      "description": "Data Report",
+      "title": "Data",
+      "default": null,
+      "autocomplete": {
+        "remote_url": "http://lionbi-cifren.c9users.io/api/v1/reportdatas",
+        "remote_value": "id",
+        "remote_label": "display_name"
+      }
+    },
     "display_name": {
       "type": "string",
       "description": "What name do you want ?",
-      "title": "Display name",
+      "title": "Name",
       "default": null
     }
   };
@@ -26,7 +38,10 @@ export default class ReportAdminConfig extends AdminConfig {
   }
   
   configureFormFields(formMapper) {
-    formMapper.add('display_name', 'text', {"required": true});
+    formMapper
+      .add('display_name', 'text', {"required": true})
+      .add('lnb_report_data_id', 'comboautocomplete')
+      ;
   }
 
   configureDatagridFilters(datagridMapper) {
@@ -36,11 +51,28 @@ export default class ReportAdminConfig extends AdminConfig {
   configureListFields(listMapper) {
     listMapper
       .addIdentifier('id')
-      .add('display_name', {'label': "Display Name"});
+      .add('display_name', {'label': "Name"});
   }
 
   configureShowFields(showMapper) {
     showMapper.add('display_name');
+  }
+  
+  //when page receive data on get
+  receiveRequestTransformer(request, pageType){
+    if(pageType == 'edit' && !isEmpty(request)){
+      const dataId = request.lnb_report_data.id;
+      delete request.lnb_report_data;
+      return {...request, 'lnb_report_data_id': dataId}; 
+    }
+    return request;
+  }
+  
+  //when form will emit request
+  formRequestTransformer(request, pageType){
+    var dataId = request.lnb_report_data_id;
+    delete request.lnb_report_data_id;
+    return {...request, 'lnb_report_data': dataId};
   }
 
 }

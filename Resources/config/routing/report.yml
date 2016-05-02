@@ -1,7 +1,0 @@
-lionbi_report_list:
-    path: /list
-    defaults: { _controller: EarlsLionBiBundle:Report:list }
-    
-lionbi_report_editor:
-    path: /editor
-    defaults: { _controller: EarlsLionBiBundle:Report:editor }

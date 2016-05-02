@@ -2,3 +2,6 @@ parameters:
     lion_bi_entity_manager_name:    null
     
 services:
+    report_data_manager:
+        class: Earls\LionBiBundle\Model\ReportDataManager
+        arguments: ["@doctrine"]

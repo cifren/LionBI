@@ -1,0 +1,4 @@
+.selectableBox{text-align: center;cursor: pointer;}
+.selectableBox-md{width:80px;}
+.selectableBox:hover{box-shadow: 2px 2px grey;}
+.selectableBox i{display: inline-block; width: 100%;}

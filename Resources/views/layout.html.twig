@@ -17,6 +17,8 @@
             '@EarlsLionBiBundle/Resources/public/node_modules/font-awesome/css/font-awesome.min.css'
             '@EarlsLionBiBundle/Resources/public/css/sb-admin/timeline.css'
             '@EarlsLionBiBundle/Resources/public/css/sb-admin/sb-admin-2.css'
+            '@EarlsLionBiBundle/Resources/public/css/sound-admin/awesomplete/awesomplete.css'
+            '@EarlsLionBiBundle/Resources/public/css/sound-admin/autocomplete.css'
         %}
             <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
@@ -31,13 +33,15 @@
         </div>
     {% endblock body %}
     <!-- /#wrapper -->
-    
+    <!-- 
+        '@EarlsLionBiBundle/Resources/public/node_modules/jquery/dist/jquery.min.js'
+        '@EarlsLionBiBundle/Resources/public/node_modules/jquery-ui/jquery-ui.js'
+        '@EarlsLionBiBundle/Resources/public/node_modules/bootstrap/dist/js/bootstrap.min.js'
+        '@EarlsLionBiBundle/Resources/public/node_modules/metismenu/dist/metisMenu.min.js'
+        '@EarlsLionBiBundle/Resources/public/js/sb-admin/sb-admin-2.js'
+    -->
     {% block javascripts  %}
         {% javascripts
-            '@EarlsLionBiBundle/Resources/public/node_modules/jquery/dist/jquery.min.js'
-            '@EarlsLionBiBundle/Resources/public/node_modules/bootstrap/dist/js/bootstrap.min.js'
-            '@EarlsLionBiBundle/Resources/public/node_modules/metismenu/dist/metisMenu.min.js'
-            '@EarlsLionBiBundle/Resources/public/js/sb-admin/sb-admin-2.js'
         %}
             <script type="text/javascript" src="{{ asset_url }}"></script>
         {% endjavascripts  %}

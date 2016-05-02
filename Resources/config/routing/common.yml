@@ -1,3 +1,0 @@
-lionbi_common_template:
-    path: /template/{templateName}
-    defaults: { _controller: EarlsLionBiBundle:Common:template }

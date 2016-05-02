@@ -1,41 +1,64 @@
 import "isomorphic-fetch";
-import reduxApi from "redux-api";
+import reduxApi, {transformers} from "redux-api";
 import adapterFetch from "redux-api/lib/adapters/fetch";
-import { RECEIVE_REPORT_DATA } from "../actions/reportData";
-import ReportDataTransformer from "./transformers/ReportDataTransformer";
+import parameters from "../app/parameters"
 
-const URL = "http://lionbi-cifren.c9users.io";
+const URL = parameters.api.url;
+const JSON_OPTIONS = {
+  headers: {
+    "Accept": "application/json",
+    "Content-Type": "application/json"
+  }
+};
+const reportConfigRestName = parameters.api.resources.reportConfig;
+const reportDataRestName = parameters.api.resources.reportData;
+const reportFilterRestName = parameters.api.resources.reportFilter;
+const reportModuleRestName = parameters.api.resources.reportModule;
 
 export default reduxApi({
-  restReportDatas: {
-    url: `${URL}/api/v1/reportdatas.json`,
-    transformer: ReportDataTransformer.reportDatas(),
-    options: {
-      header: {
-        "Accept": "application/json"
-      }
-    }
+  reportConfig_Get: {
+    url: URL + "/" + reportConfigRestName + "/:id",
+    transformer: transformers.object,
+    options: JSON_OPTIONS
   },
-  restReportDataCrud: {  //all except POST
-    url: `${URL}/api/v1/reportdatas/:id.json`,
-    crud: true,
-    transformer: ReportDataTransformer.reportData(),
-    options: {
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json"
-      }
-    }
+  reportConfig_Patch: {
+    url: URL + "/" + reportConfigRestName + "/:id",
+    transformer: transformers.object,
+    options: {...JSON_OPTIONS, method: "PATCH"}
   },
-  restReportDataPost: {
-    url: `${URL}/api/v1/reportdatas.json`,
-    transformer: ReportDataTransformer.reportData(),
-    options: {
-      method: "post",
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json"
-      }
-    }
-  }
+  reportData_Get: {
+    url: URL + "/" + reportDataRestName + "/:id",
+    transformer: transformers.object,
+    options: JSON_OPTIONS
+  },
+  reportData_Get_columns: {
+    url: URL + "/" + reportDataRestName + "/:id/columns",
+    transformer: transformers.object,
+    options: JSON_OPTIONS
+  },
+  reportFilter_CGet: {
+    url: URL + "/" + reportFilterRestName,
+    transformer: transformers.array,
+    options: JSON_OPTIONS
+  },
+  reportFilter_Post: {
+    url: URL + "/" + reportFilterRestName,
+    transformer: transformers.object,
+    options: {...JSON_OPTIONS, method: "POST"}
+  },
+  reportFilter_Patch: {
+    url: URL + "/" + reportFilterRestName + "/:id",
+    transformer: transformers.object,
+    options: {...JSON_OPTIONS, method: "PATCH"}
+  },
+  reportFilter_Delete: {
+    url: URL + "/" + reportFilterRestName + "/:id",
+    transformer: transformers.object,
+    options: {...JSON_OPTIONS, method: "DELETE"}
+  },
+  reportModule_CGet: {
+    url: URL + "/" + reportModuleRestName,
+    transformer: transformers.array,
+    options: JSON_OPTIONS
+  },
 }).use("fetch", adapterFetch(fetch)); // it's necessary to point using REST backend

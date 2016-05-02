@@ -5,7 +5,8 @@ import { Router, browserHistory } from "react-router";
 import routes from "./routes";
 
 import configureStore from "./store/configureStore";
-import { syncHistoryWithStore } from 'react-router-redux'
+import { syncHistoryWithStore } from 'react-router-redux';
+import "./public/css/main.css";
 
 const store = configureStore();
 // Create an enhanced history that syncs navigation events with the store
