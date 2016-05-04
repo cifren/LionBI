@@ -7,30 +7,31 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Earls\LionBiBundle\Form\Model\Category;
 
-class GroupType extends AbstractType
+class CategoryType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('dataId', TextType::class)
-            ->add('groupActions', CollectionType::class, array(
-                'entry_type' => GroupAction::class,
+            ->add('groupBy', TextType::class, array('required' => false))
+            ->add('columns', CollectionType::class, array(
+                'allow_add' => true,
+                'entry_type' => ColumnType::class
                 ))
-            ->add('actions', CollectionType::class, array(
-                'entry_type' => Action::class,
-                ))
+            ->add('row', RowType::class, array('required' => false))
         ;
     }
 
     public function getBlockPrefix()
     {
-        return 'reportTableGroup';
+        return 'reportTableCategory';
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
+            "data_class" => Category::class,
             'csrf_protection' => false,
             'allow_extra_fields' => true,
         ));

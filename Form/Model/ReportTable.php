@@ -5,14 +5,23 @@ namespace Earls\LionBiBundle\Form\Model;
 use Earls\LionBiBundle\Model\GetterSetterBase;
 
 /**
- * Earls\LionBiBundle\Form\Model\ReportTable.
+ * Earls\LionBiBundle\Form\Model\ReportTable
  */
 class ReportTable extends GetterSetterBase
 {
-    protected $id;
-    protected $displayId;
-    protected $headers = array();
-    protected $categories = array();
+    public $id;
+    public $displayId;
+    public $headers = array();
+    public $categories = array();
+}
+
+/**
+ * Earls\LionBiBundle\Form\Model\Header
+ */
+class Header extends GetterSetterBase
+{
+    public $displayId;
+    public $label;
 }
 
 /**
@@ -20,10 +29,10 @@ class ReportTable extends GetterSetterBase
  */
 class Category extends GetterSetterBase
 {
-    protected $id;
-    protected $groupBy;
-    protected $columns = array();
-    protected $row;
+    public $id;
+    public $groupBy;
+    public $columns = array();
+    public $row;
 }
 
 /**
@@ -31,7 +40,7 @@ class Category extends GetterSetterBase
  */
 class Row extends GetterSetterBase
 {
-    protected $columns = array();
+    public $columns = array();
 }
 
 /**
@@ -39,9 +48,10 @@ class Row extends GetterSetterBase
  */
 class Column extends GetterSetterBase
 {
-    protected $dataId;
-    protected $groupActions = array();
-    protected $actions = array();
+    public $dataId;
+    public $displayId;
+    public $groupAction;
+    public $actions = array();
 }
 
 /**
@@ -49,6 +59,6 @@ class Column extends GetterSetterBase
  */
 class Action extends GetterSetterBase
 {
-    protected $name;
-    protected $options = array();
+    public $name;
+    public $options = array();
 }

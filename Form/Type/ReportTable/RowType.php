@@ -7,14 +7,17 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Earls\LionBiBundle\Form\Model\Row;
+
 class RowType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('dataId', TextType::class)
-            ->add('actions', CollectionType::class, array(
-                'entry_type' => Action::class,
+            ->add('columns', CollectionType::class, array(
+                'allow_add' => true,
+                'entry_type' => ColumnType::class,
+                'required' => true
                 ))
         ;
     }
@@ -27,6 +30,7 @@ class RowType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
+            "data_class" => Row::class,
             'csrf_protection' => false,
             'allow_extra_fields' => true,
         ));

@@ -7,14 +7,17 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Earls\LionBiBundle\Form\Model\Action;
 
-class Action extends AbstractType
+class ActionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('name', TextType::class)
-            ->add('options', CollectionType::class)
+            ->add('options', CollectionType::class, array(
+                'allow_add' => true
+                ))
         ;
     }
 
@@ -26,6 +29,7 @@ class Action extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
+            "data_class" => Action::class,
             'csrf_protection' => false,
             'allow_extra_fields' => true,
         ));

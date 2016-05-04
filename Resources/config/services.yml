@@ -5,3 +5,9 @@ services:
     report_data_manager:
         class: Earls\LionBiBundle\Model\ReportDataManager
         arguments: ["@doctrine"]
+        
+    report_table_form:
+        class: Earls\LionBiBundle\Form\Type\ReportTableType
+        arguments: ["@doctrine"]
+        tags:
+            - { name: form.type }

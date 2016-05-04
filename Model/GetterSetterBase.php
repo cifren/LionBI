@@ -12,7 +12,7 @@ abstract class GetterSetterBase
         if (preg_match('~^(set|get)([A-Z])(.*)$~', $methodName, $matches)) {
             $property = strtolower($matches[2]).$matches[3];
             if (!property_exists($this, $property)) {
-                throw new MemberAccessException('Property '.$property.' not exists');
+                throw new \Exception(sprintf('Property "%s" not exists on class "%s"',$property, get_class($this)));
             }
             switch ($matches[1]) {
               case 'set':
@@ -24,8 +24,10 @@ abstract class GetterSetterBase
 
                   return $this->get($property);
               case 'default':
-                  throw new MemberAccessException('Method '.$methodName.' not exists');
+                  throw new \Exception(sprintf('Method "%s" not exists on class "%s"', $methodName, get_class($this)));
           }
+        } else {
+            return call_user_func_array($methodName, $args);
         }
     }
 
@@ -45,7 +47,8 @@ abstract class GetterSetterBase
     {
         $argc = count($args);
         if ($argc < $min || $argc > $max) {
-            throw new MemberAccessException('Method '.$methodName.' needs minimaly '.$min.' and maximaly '.$max.' arguments. '.$argc.' arguments given.');
+            throw new \Exception('Method '.$methodName.' needs minimaly '.$min.' and maximaly '.$max.' arguments. '.$argc.' arguments given.');
         }
     }
+    
 }

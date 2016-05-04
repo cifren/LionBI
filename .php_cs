@@ -1,5 +1,4 @@
 <?php
-
 $finder = Symfony\CS\Finder\DefaultFinder::create()
     ->exclude('vendor')
     ->exclude('Resources')

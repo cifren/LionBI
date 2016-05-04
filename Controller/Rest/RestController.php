@@ -17,7 +17,7 @@ class RestController extends FOSRestController
     protected $getRoute;
     protected $formClass;
 
-    public function getCGetRoute()
+    protected function getCGetRoute()
     {
         if (!$this->cGetRoute) {
             throw new \Exception('Missing "cGetRoute"');
@@ -26,14 +26,14 @@ class RestController extends FOSRestController
         return $this->cGetRoute;
     }
 
-    public function setCGetRoute($cGetRoute)
+    protected function setCGetRoute($cGetRoute)
     {
         $this->cGetRoute = $cGetRoute;
 
         return $this;
     }
 
-    public function getGetRoute()
+    protected function getGetRoute()
     {
         if (!$this->getRoute) {
             throw new \Exception('Missing "getRoute"');
@@ -42,14 +42,14 @@ class RestController extends FOSRestController
         return $this->getRoute;
     }
 
-    public function setGetRoute($getRoute)
+    protected function setGetRoute($getRoute)
     {
         $this->getRoute = $getRoute;
 
         return $this;
     }
 
-    public function getClassName()
+    protected function getClassName()
     {
         if (!$this->className) {
             throw new \Exception('Missing "className"');
@@ -58,14 +58,14 @@ class RestController extends FOSRestController
         return $this->className;
     }
 
-    public function setClassName($className)
+    protected function setClassName($className)
     {
         $this->className = $className;
 
         return $this;
     }
 
-    public function getFormClass()
+    protected function getFormClass()
     {
         if (!$this->formClass) {
             throw new \Exception('Missing "formClass"');
@@ -74,7 +74,7 @@ class RestController extends FOSRestController
         return $this->formClass;
     }
 
-    public function setFormClass($formClass)
+    protected function setFormClass($formClass)
     {
         $this->formClass = $formClass;
 
@@ -90,17 +90,28 @@ class RestController extends FOSRestController
   */
   public function submitformAction(Request $request)
   {
+      print_r('<b>Var_dump Request results:</b>');
       var_dump($request->request->all());
-      $entity = new $this->className();
-      $form = $this->container->get('form.factory')->create($this->formClass, $entity);
+      echo "<b>Json array:</b>";
+      echo "<br>".json_encode($request->request->all(), JSON_PRETTY_PRINT)."<br><br>";
+      $className = $this->getClassName();
+      $entity = $this->getSubmitEntity();
+      
+      $form = $this->container->get('form.factory')->create($this->getFormClass(), $entity);
       $form->add('save', SubmitType::class, array('label' => 'Submit'));
       $form->handleRequest($request);
 
       if ($form->isSubmitted() && $form->isValid()) {
-          var_dump('submited and valid');
+          var_dump('submited and valid (no flush)');
       }
 
       return $this->render('EarlsLionBiBundle:Rest:form.html.twig', array('form' => $form->createView()));
+  }
+  
+  protected function getSubmitEntity()
+  {
+    $className = $this->getClassName();
+    return new $className();
   }
 
   /**
