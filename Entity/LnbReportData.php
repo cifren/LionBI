@@ -3,16 +3,12 @@
 namespace Earls\LionBiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\Expose;
 
 /**
  * Earls\LionBiBundle\Entity\LnbReportData.
  *
  * @ORM\Table(name="lnb_report_data")
  * @ORM\Entity
- *
- * @ExclusionPolicy("all")
  */
 class LnbReportData
 {
@@ -22,7 +18,6 @@ class LnbReportData
      * @ORM\Column(type="integer", options={"unsigned":true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @Expose
      */
     protected $id;
 
@@ -30,7 +25,6 @@ class LnbReportData
      * @var string
      *
      * @ORM\Column(name="display_name", type="text", length=100)
-     * @Expose
      */
     protected $displayName;
 
@@ -38,7 +32,6 @@ class LnbReportData
      * @var string
      *
      * @ORM\Column(name="sql_statement", type="text", nullable=true)
-     * @Expose
      */
     protected $sqlStatement;
 
@@ -46,7 +39,6 @@ class LnbReportData
      * @var string
      *
      * @ORM\Column(name="entity_name", type="text", nullable=true)
-     * @Expose
      */
     protected $entityName;
 
@@ -54,7 +46,6 @@ class LnbReportData
      * @var int
      *
      * @ORM\Column(name="entity_id", type="integer", nullable=true)
-     * @Expose
      */
     protected $entityId;
 
@@ -136,15 +127,5 @@ class LnbReportData
         $this->lnbReportDataType = $lnbReportDataType;
 
         return $this;
-    }
-
-    public function getArray()
-    {
-        return array(
-            'id' => $this->getId(),
-            'displayName' => $this->getDisplayName(),
-            'sqlStatement' => $this->getSqlStatement(),
-            'lnbReportDataType' => $this->getLnbReportDataType()->getId(),
-        );
     }
 }

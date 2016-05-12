@@ -11,6 +11,7 @@ class ReportTable extends GetterSetterBase
 {
     public $id;
     public $displayId;
+    public $reportConfig;
     public $headers = array();
     public $categories = array();
 }

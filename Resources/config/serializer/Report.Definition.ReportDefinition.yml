@@ -1,0 +1,3 @@
+# parents need to be declared as well in order to apply expose on it
+Earls\RhinoReportBundle\Report\Definition\ReportDefinition:
+    exclusion_policy: ALL

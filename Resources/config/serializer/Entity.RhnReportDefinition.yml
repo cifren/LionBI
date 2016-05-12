@@ -1,0 +1,8 @@
+# parents need to be declared as well in order to apply expose on it
+Earls\RhinoReportBundle\Entity\RhnReportDefinition:
+    exclusion_policy: ALL
+    properties:
+      id:
+        expose: true
+      filters:
+        expose: true

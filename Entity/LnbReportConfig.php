@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Earls\RhinoReportBundle\Entity\RhnReportDefinition;
 
 /**
- * Earls\LionBiBundle\Entity\LnbReportConfig.
+ * Earls\LionBiBundle\Entity\LnbReportConfig
  *
  * @ORM\Table(name="lnb_report_config")
  * @ORM\Entity
@@ -38,7 +38,7 @@ class LnbReportConfig
     protected $lnbReportData;
 
     /**
-     * @var RhnReportDefinition
+     * var RhnReportDefinition
      *
      * @ORM\OneToOne(targetEntity="Earls\RhinoReportBundle\Entity\RhnReportDefinition", cascade={"all"})
      * @ORM\JoinColumn(name="rhn_report_definition_id", referencedColumnName="id")
@@ -83,6 +83,18 @@ class LnbReportConfig
     public function setLnbReportData($lnbReportData)
     {
         $this->lnbReportData = $lnbReportData;
+
+        return $this;
+    }
+
+    public function getRhnReportDefinition()
+    {
+        return $this->rhnReportDefinition;
+    }
+
+    public function setRhnReportDefinition($rhnReportDefinition)
+    {
+        $this->rhnReportDefinition = $rhnReportDefinition;
 
         return $this;
     }

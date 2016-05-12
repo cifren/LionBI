@@ -1,0 +1,9 @@
+Earls\LionBiBundle\Entity\LnbReportConfig:
+  exclusion_policy: ALL
+  properties:
+    id:
+      expose: true
+    displayName:
+      expose: true
+    lnbReportData:
+      expose: true

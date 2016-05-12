@@ -1,0 +1,13 @@
+Earls\LionBiBundle\Form\Model\ReportTable:
+  exclusion_policy: ALL
+  properties:
+    id:
+      expose: true
+    displayId:
+      expose: true
+    reportConfig:
+      expose: true
+    headers:
+      expose: true
+    categories:
+      expose: true

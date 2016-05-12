@@ -7,6 +7,8 @@ use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\View\View;
 use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\DataTransformerInterface;
+use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Earls\LionBiBundle\Form\Handler\RestHandler;
 use FOS\RestBundle\Controller\Annotations\Route;
 
@@ -16,6 +18,7 @@ class RestController extends FOSRestController
     protected $cGetRoute;
     protected $getRoute;
     protected $formClass;
+    protected $transformer;
 
     protected function getCGetRoute()
     {
@@ -80,6 +83,17 @@ class RestController extends FOSRestController
 
         return $this;
     }
+    
+    protected function setTransformer($transformer)
+    {
+      $this->transformer= $transformer;
+      return $this;
+    }
+    
+    protected function getTransformer()
+    {
+      return $this->transformer;
+    }
 
   // suppose to be working, but issue with the routing, needs to be copy into the main controller
   // with:
@@ -122,6 +136,7 @@ class RestController extends FOSRestController
   public function cgetAction()
   {
       $items = $this->getDoctrine()->getRepository($this->getClassName())->findAll();
+      $items = $this->applyTransformer($items);
       $view = new View($items);
 
       return $view;
@@ -140,7 +155,8 @@ class RestController extends FOSRestController
       if (!is_object($item)) {
           throw $this->createNotFoundException();
       }
-
+      $item = $this->applyTransformer($item);
+      
       $view = new View($item);
 
       return $view;
@@ -254,5 +270,43 @@ class RestController extends FOSRestController
           );
 
       return $handler;
+  }
+  
+  /**
+   * @param mixed
+   */ 
+  protected  function applyTransformer($object)
+  {
+    if(is_object($object)){
+      $newObject = $this->applyTransformerOnObject($object);
+    } else if(is_array($object)) {
+      $newObject = $this->applyTransformerOnArray($object);
+    } else {
+      throw new UnexpectedTypeException($object, "Array() or Object()");
+    }
+    
+    return $newObject;
+  }
+  
+  protected function applyTransformerOnObject($item)
+  {
+    if($this->getTransformer()){
+      if($this->getTransformer() instanceof DataTransformerInterface){
+        $item = $this->getTransformer()->transform($item);
+      } else {
+        throw new \Exception(sprintf("The transformer '%s' needs to implement '%s'", get_class($this->getTransformer()), DataTransformerInterface::class));
+      }
+    }
+    return $item;
+  }
+  
+  protected function applyTransformerOnArray(array $items)
+  {
+    $newAry = array();
+    foreach($items as $item){
+      $newAry[] = $this->applyTransformerOnObject($item);
+    }
+    
+    return $newAry;
   }
 }

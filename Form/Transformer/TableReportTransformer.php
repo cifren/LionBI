@@ -5,6 +5,7 @@ namespace Earls\LionBiBundle\Form\Transformer;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Doctrine\Bundle\DoctrineBundle\Registry;
+use Earls\LionBiBundle\Entity\LnbReportConfig;
 use Earls\RhinoReportBundle\Entity\RhnTblMainDefinition;
 use Earls\RhinoReportBundle\Entity\RhnTblGroupDefinition;
 use Earls\RhinoReportBundle\Entity\RhnTblColumnDefinition;
@@ -47,8 +48,10 @@ class TableReportTransformer implements DataTransformerInterface
         $tableModel = new ReportTable();
         $groups = $tableEntity->getBodyDefinition()->getGroups();
         $group = array_shift($groups);
+        
         $tableModel
             ->setId($tableEntity->getId())
+            ->setReportConfig($this->getReportConfig($tableEntity))
             ->setDisplayId($tableEntity->getDisplayId())
             ->setHeaders($this->getHeadColumns($tableEntity->getHeadDefinition()->getColumns()));
         if($group){
@@ -56,6 +59,12 @@ class TableReportTransformer implements DataTransformerInterface
         }
             
         return $tableModel;
+    }
+    
+    protected function getReportConfig(RhnTblMainDefinition $tableEntity)
+    {
+        return $this->manager->getRepository(LnbReportConfig::class)
+            ->findOneBy(array('rhnReportDefinition' => $tableEntity->getParent()));
     }
   
     protected function getHeadColumns($headColumns)
@@ -168,7 +177,6 @@ class TableReportTransformer implements DataTransformerInterface
             $tableEntity = $this->tableEntity;
         } else {
             if($tableModel->getId()){
-            
                 $tableEntity = $this->manager
                     ->getRepository(RhnTblMainDefinition::class)
                     // query for the issue with this id
@@ -189,6 +197,7 @@ class TableReportTransformer implements DataTransformerInterface
             }
         }
         $tableEntity->setDisplayId($tableModel->getDisplayId());
+        $tableEntity->setParent($tableModel->getReportConfig()->getRhnReportDefinition());
         
         if($tableModel->getHeaders()){
             $tableEntity->getHeadDefinition()->setColumns($this->formatColumns($tableModel->getHeaders()));

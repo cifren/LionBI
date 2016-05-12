@@ -7,11 +7,13 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Earls\LionBiBundle\Form\Type\ReportTable\HeaderType;
 use Earls\LionBiBundle\Form\Type\ReportTable\CategoryType;
 use Earls\LionBiBundle\Form\Model\ReportTable;
 use Earls\LionBiBundle\Form\Transformer\TableReportTransformer;
+use Earls\LionBiBundle\Entity\LnbReportConfig;
 
 /**
  *   Earls\LionBiBundle\Form\Type\ReportTableType
@@ -37,12 +39,17 @@ class ReportTableType extends AbstractType
                 'allow_add' => true,
                 'entry_type' => CategoryType::class,
                 ))
+            ->add('reportConfig', EntityType::class, array(
+                'class' => LnbReportConfig::class,
+                'required' => true,
+                'choice_label' => 'id',
+            ))
         ;
     }
 
     public function getBlockPrefix()
     {
-        return 'reportTable';
+        return null;
     }
 
     public function configureOptions(OptionsResolver $resolver)
