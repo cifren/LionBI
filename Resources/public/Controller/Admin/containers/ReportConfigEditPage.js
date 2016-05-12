@@ -10,7 +10,7 @@ function mapStateToProps(state) {
       reportData_Get: state.reportData_Get,
       reportConfig_Patch: state.reportConfig_Patch,
       reportFilter_CGet: state.reportFilter_CGet,
-      reportModule_CGet: state.reportModule_CGet
+      reportConfig_modules_CGet: state.reportConfig_modules_CGet
   };
 }
 

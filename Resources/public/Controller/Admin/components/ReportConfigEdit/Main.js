@@ -16,7 +16,7 @@ export default class ReportConfigEdit extends React.Component {
       reportData: this.props.reportData_Get.data,
       id: this.props.params.id,
       filters: [],
-      modules: []
+      modules: this.props.reportConfig_modules_CGet.data
     };
   }
   
@@ -31,8 +31,9 @@ export default class ReportConfigEdit extends React.Component {
         reportConfig: nextProps.reportConfig_Get.data
       });
       // get filter after reportConfig has been loaded
-      if(nextProps.reportConfig_Get.data.rhn_report_definition && nextProps.reportConfig_Get.data.rhn_report_definition.id){
-        this.props.actions.getFilters(nextProps.reportConfig_Get.data.rhn_report_definition.id);
+      if(nextProps.reportConfig_Get.data && nextProps.reportConfig_Get.data.id){
+        this.props.actions.getFilters(nextProps.reportConfig_Get.data.id);
+        this.props.actions.getModules(nextProps.reportConfig_Get.data.id);
       }
     }
     
@@ -42,9 +43,9 @@ export default class ReportConfigEdit extends React.Component {
       });
     }
     
-    if(nextProps.reportModule_CGet.data && nextProps.reportModule_CGet.data){
+    if(nextProps.reportConfig_modules_CGet.data && nextProps.reportConfig_modules_CGet.data){
       this.setState({
-        modules: nextProps.reportModule_CGet.data
+        modules: nextProps.reportConfig_modules_CGet.data
       });
     }
     

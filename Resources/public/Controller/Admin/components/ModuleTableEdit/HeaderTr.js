@@ -1,45 +1,71 @@
 import React from "react";
 
-export default class HeaderTr extends React.Component{
-  constructor(props){
-    super(props);
-    this.state = {
-      columnCount: this.props.columnCount
-    };
+
+export default class HeaderTr extends React.Component {
+  onChange(value, key){
+    var columnList = this.props.columnList;
+    columnList[key].header = value;
+    
+    this.props.actions.updateColumnList(columnList);
   }
   
-  componentWillReceiveProps(nextProps){
-    this.nextProps = nextProps;
-    if(this.isChanged('columnCount')){
-      this.setState({columnCount: nextProps.columnCount});
-    }
+  onClick(){
+    this.props.actions.addColumn();
   }
   
-  isChanged(value){
-    return this.props[value] != this.nextProps[value];
+  render(){
+    const columnList = this.props.columnList;
+    return (
+      <div class="row">
+        <div class="col-lg-2">
+          <div class="row">
+            <div class="col-sm-6"><strong>Header</strong> </div>
+            <div class="col-sm-6">
+              <a class="btn btn-primary" onClick={this.onClick.bind(this)}>
+                <i class="fa fa-plus"> add column</i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-10">
+          <div class="row">
+            {
+              columnList.map((item, key) => {
+                return (
+                  <HeaderCell 
+                    item={item.header} 
+                    key={key} 
+                    headerKey={key} 
+                    onChange={this.onChange.bind(this)}
+                  />
+                );
+              })
+            }
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+export class HeaderCell extends React.Component {
+  onChange(e){
+    var item = {...item, "label": e.target.value};
+    this.props.onChange(item, this.props.headerKey);
   }
   
   render(){
     return (
-      <tr>
-        <td>Header</td>
-        {
-          [...Array(this.state.columnCount)].map((item, key)=>{
-            return (
-              <td key={key}>
-                <form class="form-inline">
-                  <div class="form-group">
-                    <input type="text" class="form-control" id="name" placeholder="Column name"/>
-                  </div>
-                </form>
-              </td>
-            );
-          })
-        }
-        <td> 
-          <div class="col-lg-12 well well-sm selectableBox selectableBox-md" onClick={this.props.addColumn}><i class="fa fa-plus fa-2x text-center"></i></div>
-        </td>
-      </tr>
+      <div class="col-xs-4">
+        <div class="col-lg-12 well well-sm">
+          <input 
+            class="form-control"
+            value={this.props.item.label}
+            onChange={this.onChange.bind(this)}
+            placeholder="Type column name"
+          />
+        </div>
+      </div>
     );
   }
 }

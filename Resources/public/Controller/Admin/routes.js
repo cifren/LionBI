@@ -10,8 +10,8 @@ import DataAdminPage from "./containers/DataAdminPage";
 import ModuleChartEditPage from "./containers/ModuleChartEditPage";
 import ModuleTableEditPage from "./containers/ModuleTableEditPage";
 import ModuleChoiceCreate from "./components/ModuleChoiceCreate";
-import GroupCellEdit from "./components/ModuleTableEdit/GroupCellEdit";
-import RowCellEdit from "./components/ModuleTableEdit/GroupCellEdit";
+import CategoryCellEdit from "./components/ModuleTableEdit/CategoryCellEdit";
+import RowCellEdit from "./components/ModuleTableEdit/CategoryCellEdit";
 
 const common = {
   navigation: NavigationPage,
@@ -36,9 +36,9 @@ export default (
           <Route path="table">
             <Route path="row/:rowId"
                 components={{...common, content: RowCellEdit}} />
-            <Route path="group/:groupId"
-                components={{...common, content: GroupCellEdit}} />
-            <Route name="module_table_edit" path=":tableId"
+            <Route path="category/cell"
+                components={{...common, content: CategoryCellEdit}} />
+            <Route name="module_table_edit" path=":id"
                 components={{...common, content: ModuleTableEditPage}} />
           </Route>
         </Route>

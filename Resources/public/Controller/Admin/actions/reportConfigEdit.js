@@ -47,8 +47,8 @@ export function deleteFilter(id) {
     ));
   };
 }
-export function getModules(parent){
+export function getModules(id){
   return (dispatch) => {
-    dispatch(rest.actions.reportModule_CGet({parent}));
+    dispatch(rest.actions.reportConfig_modules_CGet({id}));
   };
 }

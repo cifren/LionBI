@@ -13,7 +13,7 @@ const JSON_OPTIONS = {
 const reportConfigRestName = parameters.api.resources.reportConfig;
 const reportDataRestName = parameters.api.resources.reportData;
 const reportFilterRestName = parameters.api.resources.reportFilter;
-const reportModuleRestName = parameters.api.resources.reportModule;
+const reportTableRestName = parameters.api.resources.reportTable;
 
 export default reduxApi({
   reportConfig_Get: {
@@ -25,6 +25,11 @@ export default reduxApi({
     url: URL + "/" + reportConfigRestName + "/:id",
     transformer: transformers.object,
     options: {...JSON_OPTIONS, method: "PATCH"}
+  },
+  reportConfig_modules_CGet: {
+    url: URL + "/" + reportConfigRestName + "/:id/modules",
+    transformer: transformers.array,
+    options: JSON_OPTIONS
   },
   reportData_Get: {
     url: URL + "/" + reportDataRestName + "/:id",
@@ -56,9 +61,14 @@ export default reduxApi({
     transformer: transformers.object,
     options: {...JSON_OPTIONS, method: "DELETE"}
   },
-  reportModule_CGet: {
-    url: URL + "/" + reportModuleRestName,
-    transformer: transformers.array,
-    options: JSON_OPTIONS
+  reportTable_Post: {
+    url: URL + "/" + reportTableRestName,
+    transformer: transformers.object,
+    options: {...JSON_OPTIONS, method: "POST"}
   },
+  reportTable_Get: {
+    url: URL + "/" + reportTableRestName + "/:id",
+    transformer: transformers.object,
+    options: JSON_OPTIONS
+  }
 }).use("fetch", adapterFetch(fetch)); // it's necessary to point using REST backend

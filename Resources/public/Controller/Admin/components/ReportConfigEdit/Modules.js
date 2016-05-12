@@ -9,6 +9,12 @@ export default class Modules extends React.Component {
     };
   }
   
+  componentWillReceiveProps(nextProps){
+    if(this.props.modules != nextProps.modules){
+      this.setState({modules: nextProps.modules});
+    }
+  }
+  
   render(){
     return (
       <div>
