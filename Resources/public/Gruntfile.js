@@ -2,7 +2,7 @@ module.exports = function (grunt) {
     grunt.initConfig({
         "pkg": grunt.file.readJSON('package.json'),
         copy: {
-          main: {
+          sound_admin: {
             files: [
               {
                 expand: true, 
@@ -11,6 +11,15 @@ module.exports = function (grunt) {
                 dest: 'css/sound-admin/', filter: 'isFile'},
             ],
           },
+          react_select: {
+            files: [
+              {
+                expand: true, 
+                cwd: 'node_modules/react-select/dist/', 
+                src: ['*.css'], 
+                dest: 'css/react-select/', filter: 'isFile'},
+            ],
+          }
         },
     });
     
