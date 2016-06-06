@@ -1,0 +1,15 @@
+Earls\LionBiBundle\Form\Model\ReportBar:
+  exclusion_policy: ALL
+  properties:
+    id:
+      expose: true
+    displayId:
+      expose: true
+    labelColumn:
+      expose: true
+    options:
+      expose: true
+    datasets:
+      expose: true
+    reportConfig:
+      expose: true

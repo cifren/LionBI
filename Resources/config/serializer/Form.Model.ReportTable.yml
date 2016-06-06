@@ -5,6 +5,8 @@ Earls\LionBiBundle\Form\Model\ReportTable:
       expose: true
     displayId:
       expose: true
+    position:
+      expose: true
     reportConfig:
       expose: true
     headers:

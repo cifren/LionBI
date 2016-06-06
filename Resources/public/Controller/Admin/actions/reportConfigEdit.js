@@ -5,6 +5,7 @@ export function getReport(id) {
     dispatch(rest.actions.reportConfig_Get.sync({id}));
   };
 }
+
 export function patchReport(id, data) {
   return (dispatch) => {
     dispatch(rest.actions.reportConfig_Patch(
@@ -50,5 +51,13 @@ export function deleteFilter(id) {
 export function getModules(id){
   return (dispatch) => {
     dispatch(rest.actions.reportConfig_modules_CGet({id}));
+  };
+}
+export function resetReportRest(){
+  return (dispatch) => {
+    dispatch(rest.actions.reportConfig_Get.reset());
+    dispatch(rest.actions.reportConfig_modules_CGet.reset());
+    dispatch(rest.actions.reportFilter_CGet.reset());
+    dispatch(rest.actions.reportData_Get.reset());
   };
 }

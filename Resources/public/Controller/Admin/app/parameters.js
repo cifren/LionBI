@@ -5,7 +5,8 @@ module.exports = {
       "reportConfig": "reports",
       "reportData": "reportdatas",
       "reportFilter": "reportfilters",
-      "reportTable": "reporttables"
+      "reportTable": "reporttables",
+      "reportBar": "reportbars"
     }
   }
 };

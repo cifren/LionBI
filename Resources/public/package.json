@@ -9,6 +9,7 @@
     "font-awesome": "^4.5.0",
     "history": "^2.0.1",
     "isomorphic-fetch": "^2.2.1",
+    "jquery": "^1.9.1",
     "jquery-lite": "^2.2.3",
     "lodash": "^4.6.1",
     "metismenu": "^2.4.2",
@@ -47,7 +48,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "grunt": "node_modules/grunt-cli/bin/grunt",
-    "webpack": "webpack --config Controller/Admin/webpack.config.js --watch"
+    "webpack_admin": "webpack --config Controller/Admin/webpack.config.js --watch",
+    "webpack_frontend": "webpack --config Controller/Frontend/webpack.config.js --watch"
   },
   "author": "",
   "license": "ISC"

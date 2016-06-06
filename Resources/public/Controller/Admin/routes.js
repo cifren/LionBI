@@ -7,7 +7,7 @@ import ReportAdminPage from "./containers/ReportAdminPage";
 import ReportConfigEditPage from "./containers/ReportConfigEditPage";
 import DataEditPage from "./containers/DataEditPage";
 import DataAdminPage from "./containers/DataAdminPage";
-import ModuleChartEditPage from "./containers/ModuleChartEditPage";
+import ModuleBarEditPage from "./containers/ModuleBarEditPage";
 import ModuleTableEditPage from "./containers/ModuleTableEditPage";
 import ModuleChoiceCreate from "./components/ModuleChoiceCreate";
 import CategoryCellEdit from "./components/ModuleTableEdit/CategoryCellEdit";
@@ -31,8 +31,8 @@ export default (
         <Route path="module">
           <Route name="module_create_choice" path="choice/:reportId"
               components={{...common, content: ModuleChoiceCreate}} />
-          <Route name="module_chart_edit" path="chart/:moduleId"
-              components={{...common, content: ModuleChartEditPage}} />
+          <Route name="module_bar_edit" path="bar/:id"
+              components={{...common, content: ModuleBarEditPage}} />
           <Route path="table">
             <Route path="row/:rowId"
                 components={{...common, content: RowCellEdit}} />

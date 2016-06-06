@@ -1,0 +1,14 @@
+Earls\RhinoReportBundle\Entity\RhnBarDefinition:
+  exclusion_policy: ALL
+  properties:
+    id:
+      expose: true
+    displayId:
+      expose: true
+    labelColumn:
+      expose: true
+    options:
+      expose: true
+    datasets:
+      expose: true
+    

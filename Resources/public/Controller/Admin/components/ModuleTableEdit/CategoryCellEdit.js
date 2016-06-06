@@ -1,7 +1,7 @@
 import React from "react";
 import Select from "react-select";
 import {MAIN_EDIT} from "./Main";
-import {groupActions} from "./Actions/actions";
+import {groupActions, columnActions} from "./Actions/actions";
 import {isEmpty} from "lodash";
 
 export default class CategoryCellEdit extends React.Component{
@@ -9,33 +9,18 @@ export default class CategoryCellEdit extends React.Component{
     super(props);
     this.state = {
       dataIds: [],
-      groupActions: []
+      groupActions: [],
+      columnActions: [],
     };
   }
   
   componentDidMount(){
-    if(!this.props.reportData_Get_columns.data.id){
-      this.props.actions.getDataIds(this.props.reportConfigId);
-    }
     this.initGroupActionList();
-  }
-  
-  componentWillReceiveProps(nextProps){
-    if(this.props.reportData_Get_columns.data != nextProps.reportData_Get_columns.data){
-      var dataIds = [];
-      nextProps.reportData_Get_columns.data.data.map((item)=>{
-        var dataId = {"label": item, "value": item};
-        dataIds.push(dataId);
-      });
-      
-      this.setState({
-        dataIds
-      });
-    }
+    this.initColumnActionList();
   }
   
   update(category){
-    this.props.actions.updateCategory(this.props.categoryKey, category);
+    this.props.actions.updateCategory(this.props.itemKey, category);
   }
   
   initGroupActionList(){
@@ -48,18 +33,18 @@ export default class CategoryCellEdit extends React.Component{
     }
   }
   
-  getActions(){
-    return [
-      {"label": "Currency", "value": "currency"},
-      {"label": "Currency", "value": "currency"},
-      {"label": "Currency", "value": "currency"},
-      {"label": "Currency", "value": "currency"},
-      {"label": "Currency", "value": "currency"},
-    ];
+  initColumnActionList(){
+    if(isEmpty(this.state.columnActions)){
+      var columnActionList = [];
+      for(var key in columnActions) {
+        columnActionList.push({"label": key, "value": key});
+      }
+      this.setState({columnActions: columnActionList});
+    }
   }
   
   onChangeDataId(newValue){
-    var category = this.props.category;
+    var category = {...this.props.item};
     if(newValue){
       category.data_id = newValue.value;
     } else {
@@ -68,20 +53,44 @@ export default class CategoryCellEdit extends React.Component{
     this.update(category);
   }
   
-  onChangeAction(){
+  onChangeSelectGA(newValue){
+    var category = {...this.props.item};
+    if(!category.group_action){
+      category.group_action = {};
+    }
     
+    if(newValue){
+      category.group_action.name = newValue.value;
+    } else {
+      category.group_action.name = null;
+    }
+    this.update(category);
   }
   
-  onChangeGA(){
+  onChangeGroupAction(newValue){
+    var category = {...this.props.item};
+    if(!category.group_action){
+      category.group_action = {};
+    }
     
+    category.group_action = newValue;
+    this.update(category);
   }
   
-  addGA(){
+  onChangeAction(key, item){
+    var category = this.props.item;
     
+    category.actions[key] = item;
+    
+    this.update(category);
   }
   
   addAction(){
+    var action = {"name": null, "options": {}};
+    var category = this.props.item;
     
+    category.actions.push(action);
+    this.update(category);
   }
   
   changeRender(){
@@ -89,7 +98,11 @@ export default class CategoryCellEdit extends React.Component{
   }
   
   render(){
-    const category = this.props.category;
+    const category = this.props.item;
+    var gaName = null;
+    if(category.group_action){
+      gaName = category.group_action.name;
+    }
     
     return (
       <div class="row">
@@ -108,7 +121,7 @@ export default class CategoryCellEdit extends React.Component{
                 <strong>Data id:</strong>
                 <Select 
                   value={category.data_id}
-                  options={this.state.dataIds}
+                  options={this.props.dataIds}
                   onChange={this.onChangeDataId.bind(this)}
                   />
               </div>
@@ -116,10 +129,11 @@ export default class CategoryCellEdit extends React.Component{
                 <strong>Group Action: </strong>
                 <div>
                   <Select 
+                    value={gaName}
                     options={this.state.groupActions}
-                    onChange={this.onChangeGA.bind(this)}
+                    onChange={this.onChangeSelectGA.bind(this)}
                     />
-                  {this.groupActionRender(this.props)}
+                  {this.groupActionRender(category.group_action)}
                 </div>
               </div>
               <div>
@@ -127,22 +141,19 @@ export default class CategoryCellEdit extends React.Component{
                 <a class="btn btn-primary">
                   <i class="fa fa-plus" onClick={this.addAction.bind(this)}> add</i>
                 </a>
-                {/*
-                  this.state.actions.map((item, key) => {
-                    // need options depending on Action
-                    const ActOptions = null;
+                {
+                  category.actions.map((item, key) => {
                     return (
-                      <div>
-                        <Select 
-                          options={this.getActions()} 
-                          value={this.state.actions[key]}
-                          onChange={this.onChangeAction.bind(this)}
-                          />
-                        {ActOptions}
-                      </div>
+                      <ActionCell 
+                        selectOptions={this.state.columnActions}
+                        key={key}
+                        itemKey={key}
+                        item={item}
+                        onChange={this.onChangeAction.bind(this)}
+                      />
                     );
                   })
-                */}
+                }
               </div>
             </div>
           </div>
@@ -152,8 +163,71 @@ export default class CategoryCellEdit extends React.Component{
   }
   
   groupActionRender(groupAction){
+    if(!groupAction || !groupAction.name){
+      return null;
+    }
+    const ComponentAction = groupActions[groupAction.name];
     return (
-      <div></div>
+      <ComponentAction 
+        moduleTable={this.props.moduleTable}
+        groupAction={groupAction}
+        action={{groupAction}}
+        dataIds={this.props.dataIds}
+        onChange={this.onChangeGroupAction.bind(this)}
+      />
     );
   }
+}
+
+export class ActionCell extends React.Component{
+  
+  onChangeSelect(newValue){
+    var item = this.props.item;
+    
+    if(newValue){
+      item.name = newValue.value;
+    } else {
+      item.name = newValue;
+    }
+    
+    this.props.onChange(this.props.itemKey, item);
+  }
+  
+  onChangeOptions(options){
+    var item = this.props.item;
+    
+    item.options = options;
+    
+    this.props.onChange(this.props.itemKey, item);
+  }
+  
+  render(){
+    const item = this.props.item;
+    
+    return (
+      <div>
+        <Select 
+          options={this.props.selectOptions}
+          value={item.name}
+          onChange={this.onChangeSelect.bind(this)}
+          />
+        {this.actionRender(item)}
+      </div>
+    );
+  }
+  
+  actionRender(columnAction){
+    if(!columnAction.name){
+      return null;
+    }
+    const ComponentAction = columnActions[columnAction.name];
+    return (
+      <ComponentAction 
+        options={columnAction.options}
+        columnAction={columnAction}
+        onChange={this.onChangeOptions.bind(this)}
+      />
+    );
+  }
+  
 }

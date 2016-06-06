@@ -1,0 +1,15 @@
+{% extends 'EarlsLionBiBundle::layout.html.twig' %}
+
+{% block body %}
+    <div id="app">
+    </div>
+{% endblock body %}
+
+{% block javascripts  %}
+    {{parent()}}
+    {% javascripts
+        '@EarlsLionBiBundle/Resources/public/Controller/Frontend/bundle/scripts.min.js'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts  %}
+{% endblock %}

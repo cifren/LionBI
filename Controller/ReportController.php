@@ -5,7 +5,10 @@ namespace Earls\LionBiBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Earls\LionBiBundle\Entity\LnbReportConfig;
+use Earls\LionBiBundle\Entity\LnbReportData;
+use Earls\RhinoReportBundle\Report\Definition\ReportConfiguration;
 
 /**
  * Description of DashboardController.
@@ -14,41 +17,65 @@ use Earls\LionBiBundle\Entity\LnbReportConfig;
  */
 class ReportController extends Controller
 {
-    public function ListAction()
+    public function defaultAction(Request $request, $id)
     {
-        $list = $this->getEntityManager()->getRepository('Earls\LionBiBundle\Entity\LnbReportConfig')->findAll();
+        $rptConfig = $this->getDoctrine()->getRepository(LnbReportConfig::class)
+            ->find($id);
+        $reportObject = $this->getReportObject($request, $rptConfig);
 
-        return $this->render('EarlsLionBiBundle:Admin/Report:list.html.twig', array(
-                    'reportList' => $list,
+        $remoteUrl = $this->generateUrl('lionbi_report_remote', array('id' => $id));
+        $exportUrl = $this->generateUrl('lionbi_report_export', array('id' => $id));
+        $exportManager = $this->get('report.template.generator.manager');
+        $templating = $exportManager->getTemplating($reportObject, $remoteUrl, $exportUrl);
+        
+        return $this->render('EarlsLionBiBundle:Frontend:report.html.twig', array(
+            'template' => $templating
         ));
     }
 
-    public function EditorAction(Request $request)
+    public function remoteDataAction(Request $request, $id)
     {
-        $entity = new LnbReportConfig();
-        $form = $this->createForm('Earls\LionBiBundle\Form\ReportData\Type\ReportType', $entity, array('method' => 'PUT'));
-        $form->add('save', SubmitType::class, array('label' => 'Create'));
+        $rptConfig = $this->getDoctrine()->getRepository(LnbReportConfig::class)
+            ->find($id);
+        $reportObject = $this->getReportObject($request, $rptConfig);
 
-        $form->handleRequest($request);
+        $exportManager = $this->get('report.template.generator.manager');
+        $reportData = $exportManager->getData($reportObject);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-        }
-
-        return $this->render('EarlsLionBiBundle:Admin/Report:editor.html.twig', array('form' => $form->createView()));
+        return new JsonResponse($reportData);
     }
 
-    protected function getEntityManager()
+    public function exportAction($id)
     {
-        $emName = $this->container->getParameter('lion_bi_entity_manager_name');
-        if ($emName) {
-            $em = $this->getDoctrine()->getEntityManager($emName);
-        } else {
-            $em = $this->getDoctrine()->getEntityManager();
-        }
+        $reportObject = $this->getReportObject();
 
-        return $em;
+        $exportManager = $this->get('report.template.generator.manager');
+        $reponse = $exportManager->getResponse($reportObject, $format, $id);
+
+        return $reponse;
     }
+
+    protected function getReportObject(Request $request, $rptConfigEntity)
+    {
+        $rptConfig = new ReportConfiguration();
+        $data = $this->getData($rptConfigEntity->getLnbReportData());
+        $rptConfig
+            ->setConfigReportDefinition($rptConfigEntity->getRhnReportDefinition())
+            ->setArrayData($data);
+            
+        $rptBuilder = $this->get('report.builder');
+        $rptBuilder->setRequest($request);
+        $rptBuilder->setConfiguration($rptConfig);
+        $rptBuilder->build();
+
+        return $rptBuilder->getReport();
+    }
+    
+    protected function getData(LnbReportData $dataSource)
+    {
+        $reportDataManager = $this->get('report_data_manager');
+        
+        return $reportDataManager->fetchAll($dataSource);
+    }
+    
 }

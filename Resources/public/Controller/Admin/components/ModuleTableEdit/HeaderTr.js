@@ -50,7 +50,7 @@ export default class HeaderTr extends React.Component {
 
 export class HeaderCell extends React.Component {
   onChange(e){
-    var item = {...item, "label": e.target.value};
+    var item = {...this.props.item, "label": e.target.value};
     this.props.onChange(item, this.props.headerKey);
   }
   

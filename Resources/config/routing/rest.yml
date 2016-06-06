@@ -21,3 +21,9 @@ rest_api_v1_reportTable:
   resource:     "EarlsLionBiBundle:Rest/LnbReportTable"
   defaults: {_format: json}
   name_prefix:  api_v1_LnbReportTable_
+  
+rest_api_v1_reportBar: 
+  type: rest
+  resource:     "EarlsLionBiBundle:Rest/LnbReportBar"
+  defaults: {_format: json}
+  name_prefix:  api_v1_LnbReportBar_

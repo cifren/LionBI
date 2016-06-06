@@ -1,0 +1,11 @@
+{% extends 'EarlsLionBiBundle::layout.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <h1>Report</h1>
+
+        {{ block('rhino_report') }}
+    </div>
+{% endblock %}
+
+{% use 'EarlsRhinoReportBundle:Report/Body:template.html.twig' %}

@@ -1,13 +1,21 @@
 import rest from "../rest/rest.js";
 import uniqId from "../model/uniqId";
+import Transformer from "../components/ModuleTableEdit/Transformer/TableDefToColumnListTransformer";
 
 export const ADD_COLUMN = "ADD_COLUMN";
-export const UPDATE_COLUMN_COUNT = "UPDATE_COLUMN_COUNT";
-export const UPDATE_MODULE = "UPDATE_MODULE";
-export const UPDATE_DISPLAY_ID = "UPDATE_DISPLAY_ID";
+export const UPDATE_VALUE = "UPDATE_VALUE";
+export const UPDATE_TABLEDEF = "UPDATE_TABLEDEF";
 export const INITIALIZE_COLUMN = "INITIALIZE_COLUMN";
 export const UPDATE_COLUMN_LIST = "UPDATE_COLUMN_LIST";
 export const UPDATE_CATEGORY = "UPDATE_CATEGORY";
+export const UPDATE_ROW = "UPDATE_ROW";
+
+export function updateTableDef(tableDef){
+  return {
+    type: UPDATE_TABLEDEF,
+    tableDef
+  };
+}
 
 export function updateColumnList(columnList){
   return {
@@ -23,10 +31,18 @@ export function updateCategory(key, category){
   };
 }
 
-export function updateDisplayId(displayId){
+export function updateRow(key, row){
   return {
-    type: UPDATE_DISPLAY_ID,
-    displayId
+    type: UPDATE_ROW,
+    key, row
+  };
+}
+
+export function update(name, value){
+  return {
+    type: UPDATE_VALUE,
+    name,
+    value
   };
 }
 
@@ -43,13 +59,6 @@ export function initializeColumn(tableDef){
   };
 }
 
-export function updateColumnCount(count){
-  return {
-    type: UPDATE_COLUMN_COUNT,
-    columnCount: count
-  };
-}
-
 export function getTable(id) {
   return (dispatch) => {
     dispatch(rest.actions.reportTable_Get({id}));
@@ -61,6 +70,19 @@ export function createTable(reportDefinitionId) {
     dispatch(rest.actions.reportTable_Post(
       {},
       { body: JSON.stringify({"displayId": uniqId(10), "reportConfig": reportDefinitionId})}
+    ));
+  };
+}
+
+export function updateTable(columnList, previousTableDef){
+  var tableDef = Transformer.reverseTransform(columnList, previousTableDef);
+  
+  return (dispatch) => {
+    var request = Object.assign({}, tableDef);
+    delete request.report_config;
+    dispatch(rest.actions.reportTable_Patch(
+      {id: tableDef.id},
+      { body: JSON.stringify(request)}
     ));
   };
 }

@@ -11,3 +11,9 @@ services:
         arguments: ["@doctrine"]
         tags:
             - { name: form.type }
+            
+    report_bar_form:
+        class: Earls\LionBiBundle\Form\Type\ReportBarType
+        arguments: ["@doctrine"]
+        tags:
+            - { name: form.type }

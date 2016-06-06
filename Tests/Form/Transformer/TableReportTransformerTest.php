@@ -3,11 +3,14 @@
 namespace Fuller\UserBundle\Tests\Form\Transformer;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
-use Earls\LionBiBundle\Form\Transformer\TableReportTransformer;
+use Doctrine\ORM\EntityRepository;
+use Earls\RhinoReportBundle\Entity\RhnReportDefinition;
+use Earls\LionBiBundle\Form\Transformer\ReportTableTransformer;
 use Earls\RhinoReportBundle\Entity\RhnTblMainDefinition;
 use Earls\RhinoReportBundle\Entity\RhnTblGroupDefinition;
 use Earls\RhinoReportBundle\Entity\RhnTblRowDefinition;
 use Earls\RhinoReportBundle\Entity\RhnTblColumnDefinition;
+use Earls\LionBiBundle\Entity\LnbReportConfig;
 use Earls\LionBiBundle\Form\Model\ReportTable;
 use Earls\LionBiBundle\Form\Model\Header;
 use Earls\LionBiBundle\Form\Model\Category;
@@ -15,7 +18,7 @@ use Earls\LionBiBundle\Form\Model\Row;
 use Earls\LionBiBundle\Form\Model\Column;
 use Earls\LionBiBundle\Form\Model\Action;
 
-class TableReportTransformerTest extends \PHPUnit_Framework_TestCase
+class ReportTableTransformerTest extends \PHPUnit_Framework_TestCase
 {
     public function testTransform()
     {
@@ -172,9 +175,10 @@ class TableReportTransformerTest extends \PHPUnit_Framework_TestCase
         if($column->getGroupAction() ==! null && $column2->getGroupAction() ==! null){
             $this->compareEntityActions($column->getGroupAction(), $column2->getGroupAction());
         }
-        
-        foreach($column->getActions() as $key => $item){
-            $this->compareEntityActions($item, $column2->getActions()[$key]);
+        if(is_array($column->getActions())){
+            foreach($column->getActions() as $key => $item){
+                $this->compareEntityActions($item, $column2->getActions()[$key]);
+            }
         }
     }
     
@@ -186,14 +190,37 @@ class TableReportTransformerTest extends \PHPUnit_Framework_TestCase
     
     protected function getTransformer() 
     {
-        return new TableReportTransformer($this->getManager());
+        return new ReportTableTransformer($this->getManager());
     }
     
     protected function getManager()
     {
-        return $this->getMockBuilder(Registry::class)
+        $reportDefinition = $this->getMockBuilder(RhnReportDefinition::class)
             ->disableOriginalConstructor()
             ->getMock();
+        
+        $reportConfig = $this->getMockBuilder(LnbReportConfig::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        
+        $reportConfig->method('getRhnReportDefinition')
+             ->willReturn($reportDefinition);
+        
+        $repo = $this->getMockBuilder(EntityRepository::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        
+        $repo->method('findOneBy')
+             ->willReturn($reportConfig);
+        
+        $manager = $this->getMockBuilder(Registry::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+            
+        $manager->method('getRepository')
+            ->willReturn($repo);
+             
+        return $manager;
     }
     
     protected function getTableEntity(){

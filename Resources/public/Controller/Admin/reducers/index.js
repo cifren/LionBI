@@ -3,6 +3,7 @@ import {routerReducer} from "react-router-redux";
 import rest from "../rest/rest";
 import {reportAdminConfig, dataAdminConfig} from './adminConfigReducer';
 import {moduleTable} from './moduleTableEditReducer';
+import {moduleBar} from './moduleBarEditReducer';
 import {poolReducer, rest as restAdminConfig} from 'sound-admin';
 
 const rootReducer = combineReducers(
@@ -11,7 +12,8 @@ const rootReducer = combineReducers(
     reportAdminConfig,
     dataAdminConfig,
     poolReducer,
-    moduleTable
+    moduleTable,
+    moduleBar
   }, 
   rest.reducers, 
   restAdminConfig.reducers

@@ -12,7 +12,7 @@ use Doctrine\Bundle\DoctrineBundle\Registry;
 use Earls\LionBiBundle\Form\Type\ReportTable\HeaderType;
 use Earls\LionBiBundle\Form\Type\ReportTable\CategoryType;
 use Earls\LionBiBundle\Form\Model\ReportTable;
-use Earls\LionBiBundle\Form\Transformer\TableReportTransformer;
+use Earls\LionBiBundle\Form\Transformer\ReportTableTransformer;
 use Earls\LionBiBundle\Entity\LnbReportConfig;
 
 /**
@@ -27,16 +27,19 @@ class ReportTableType extends AbstractType
     
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $transformer = new TableReportTransformer($this->manager);
+        $transformer = new ReportTableTransformer($this->manager);
         $builder->addModelTransformer($transformer);
         $builder
             ->add('displayId', TextType::class)
+            ->add('position', TextType::class)
             ->add('headers', CollectionType::class, array(
                 'allow_add' => true,
+                'allow_delete' => true,
                 'entry_type' => HeaderType::class,
                 ))
             ->add('categories', CollectionType::class, array(
                 'allow_add' => true,
+                'allow_delete' => true,
                 'entry_type' => CategoryType::class,
                 ))
             ->add('reportConfig', EntityType::class, array(

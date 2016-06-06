@@ -5,8 +5,10 @@ namespace Earls\LionBiBundle\Form\Transformer;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\Common\Collections\ArrayCollection;
 use Earls\LionBiBundle\Entity\LnbReportConfig;
 use Earls\RhinoReportBundle\Entity\RhnTblMainDefinition;
+use Earls\RhinoReportBundle\Entity\RhnTblHeadDefinition;
 use Earls\RhinoReportBundle\Entity\RhnTblGroupDefinition;
 use Earls\RhinoReportBundle\Entity\RhnTblColumnDefinition;
 use Earls\LionBiBundle\Form\Model\ReportTable;
@@ -17,11 +19,11 @@ use Earls\LionBiBundle\Form\Model\Column;
 use Earls\LionBiBundle\Form\Model\Action;
 
 /**
- * Earls\LionBiBundle\Form\Transformer\TableReportTransformer
+ * Earls\LionBiBundle\Form\Transformer\ReportTableTransformer
  * 
  * From Entity/ReportTable to Model/ReportTable.
  */
-class TableReportTransformer implements DataTransformerInterface
+class ReportTableTransformer implements DataTransformerInterface
 {
     protected $tableEntity;
     
@@ -53,11 +55,11 @@ class TableReportTransformer implements DataTransformerInterface
             ->setId($tableEntity->getId())
             ->setReportConfig($this->getReportConfig($tableEntity))
             ->setDisplayId($tableEntity->getDisplayId())
-            ->setHeaders($this->getHeadColumns($tableEntity->getHeadDefinition()->getColumns()));
+            ->setPosition($tableEntity->getPosition())
+            ->setHeaders($this->getHeadColumns($tableEntity->getHeadDefinition()));
         if($group){
             $tableModel->setCategories($this->getCategories($group));
         }
-            
         return $tableModel;
     }
     
@@ -67,11 +69,12 @@ class TableReportTransformer implements DataTransformerInterface
             ->findOneBy(array('rhnReportDefinition' => $tableEntity->getParent()));
     }
   
-    protected function getHeadColumns($headColumns)
-    { 
+    protected function getHeadColumns(RhnTblHeadDefinition $headDef)
+    {
         $columns = array();
-        if($headColumns){
-            foreach ($headColumns as $id => $column){
+        $defColumns = $headDef->getColumns();
+        if($defColumns){
+            foreach ($defColumns as $id => $column){
                 $header = new Header();
                 $header
                     ->setDisplayId($id)
@@ -142,13 +145,15 @@ class TableReportTransformer implements DataTransformerInterface
             }
             
             $actions = array();
-            foreach($colDef->getActions() as $aryAction){
-                $action = new Action();
-                $action->setName($aryAction['name']);
-                $action->setOptions($aryAction['arg']);
-                $actions[] = $action;
+            if($colDef->getActions()){
+                foreach($colDef->getActions() as $aryAction){
+                    $action = new Action();
+                    $action->setName($aryAction['name']);
+                    $action->setOptions($aryAction['arg']);
+                    $actions[] = $action;
+                }
+                $column->setActions($actions);
             }
-            $column->setActions($actions);
             
             $columns[] = $column;
         }
@@ -196,15 +201,17 @@ class TableReportTransformer implements DataTransformerInterface
                 $tableEntity = new RhnTblMainDefinition();
             }
         }
-        $tableEntity->setDisplayId($tableModel->getDisplayId());
-        $tableEntity->setParent($tableModel->getReportConfig()->getRhnReportDefinition());
-        
+        $tableEntity
+            ->setDisplayId($tableModel->getDisplayId())
+            ->setPosition($tableModel->getPosition())
+            ->setParent($tableModel->getReportConfig()->getRhnReportDefinition());
         if($tableModel->getHeaders()){
             $tableEntity->getHeadDefinition()->setColumns($this->formatColumns($tableModel->getHeaders()));
         }
         
         if($tableModel->getCategories()){
             $groupDefinition = $tableEntity->getBodyDefinition();
+            
             foreach($tableModel->getCategories() as $key => $category){
                 // get New created group (recursive), it will be use on next loop
                 $groupDefinition = $this->addGroup($groupDefinition, $key, $category);
@@ -223,45 +230,68 @@ class TableReportTransformer implements DataTransformerInterface
         return $columns;
     }
     
-    protected function addGroup($groupDefinition, $key, $category) 
+    protected function addGroup($parentGroupDefinition, $key, $category)
     {
-        $newGroupDefinition = $groupDefinition
-            ->addGroup($key)
+        $groups = $parentGroupDefinition->getGroups();
+        $existingGroup = array_shift($groups);
+        $groupDefinition = $existingGroup?$existingGroup:$parentGroupDefinition->addGroup($key);
+        $parentGroupDefinition->removeGroupNotFromList(new ArrayCollection(array($groupDefinition)));
+        
+        $groupDefinition
             ->setGroupBy($category->getGroupBy());
             
         if(count($category->getColumns()) > 0){
-            $this->addRow($newGroupDefinition, $category->getColumns(), true);
+            $this->addRow($groupDefinition, $category->getColumns(), true);
         }
         
-        if($category->getRow()) {
-            $this->addRow($newGroupDefinition, $category->getRow()->getColumns(), false);
+        if($category->getRow()){
+            $this->addRow($groupDefinition, $category->getRow()->getColumns(), false);
         }
         
-        return $newGroupDefinition;
+        return $groupDefinition;
     }
     
-    protected function addRow($newGroupDefinition, $columns, $unique = false)
+    protected function addRow($groupDefinition, $columns, $unique = false)
     {
-        $row = $newGroupDefinition
+        $rows = $groupDefinition->getRows();
+        $existingRow = array_shift($rows);
+        $rowDefinition = $existingRow?$existingRow:$groupDefinition
             ->addRow(array('unique' => $unique));
-            
+        $groupDefinition->removeRowNotFromList(new ArrayCollection(array($rowDefinition)));
+        
+        $columnList = [];
         foreach($columns as $col){
-            $this->addColumn($row, $col);
+            $columnList[] = $this->addColumn($rowDefinition, $col);
         }
+        //remove non-existing column from rows, by adding only existing ones
+        $rowDefinition->setColumns($columnList);
     }
     
     protected function addColumn($rowDefinition, $column) 
     {
-        $columnDef = $rowDefinition->createAndAddColumn(
-            $column->getDisplayId(), RhnTblColumnDefinition::TYPE_DISPLAY, $column->getDataId()
-        );
+        $existingColumnDef = $rowDefinition->getColumn($column->getDisplayId());
+        if($existingColumnDef){
+            $columnDef = $existingColumnDef;
+            $columnDef->setDataId($column->getDataId());
+        } else {
+            // new columnDefinition
+            $columnDef = $rowDefinition->createAndAddColumn(
+                $column->getDisplayId(), RhnTblColumnDefinition::TYPE_DISPLAY, $column->getDataId()
+            );
+        }
             
         if($action = $column->getGroupAction()){
-            $columnDef->setGroupAction($action->getName(), $action->getOptions());
+            if($action->getName()){
+                $columnDef->setGroupAction($action->getName(), $action->getOptions());
+            }
         }
-            
+        
+        $columnDef->clearAction();
         foreach($column->getActions() as $action){
-            $columnDef->addAction($action->getName(), $action->getOptions());
+            if($action->getName()){
+                $columnDef->addAction($action->getName(), $action->getOptions());
+            }
         }
+        return $columnDef;
     }
 }

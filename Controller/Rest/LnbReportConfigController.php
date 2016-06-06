@@ -7,9 +7,11 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\View\View;
 use Earls\RhinoReportBundle\Entity\RhnTblMainDefinition;
+use Earls\RhinoReportBundle\Entity\RhnBarDefinition;
 use Earls\LionBiBundle\Entity\LnbReportConfig;
 use Earls\LionBiBundle\Form\Type\ReportConfigType;
-use Earls\LionBiBundle\Form\Transformer\TableReportTransformer;
+use Earls\LionBiBundle\Form\Transformer\ReportTableTransformer;
+use Earls\LionBiBundle\Form\Transformer\ReportBarTransformer;
 
 /**
  * @RouteResource("Report")
@@ -21,6 +23,7 @@ class LnbReportConfigController extends RestController
     protected $cGetRoute = 'api_v1_LnbReportConfig_get_reports';
     protected $formClass = ReportConfigType::class;
     protected $moduleTableTransformer;
+    protected $moduleBarTransformer;
 
     /**
     * @Route("/reports/submit/form", methods={"GET", "POST"})
@@ -48,6 +51,13 @@ class LnbReportConfigController extends RestController
                     'type'=>'table',
                     'item'=>$reportTable
                 );
+            } else if($item instanceof RhnBarDefinition){
+                $module = $this->getModuleBarTransformer()->transform($item);
+                $item = array(
+                    'id'=>$module->getId(),
+                    'type'=>'bar',
+                    'item'=>$module
+                );
             }
             return $item;
         }, $items->toArray());
@@ -60,8 +70,16 @@ class LnbReportConfigController extends RestController
     protected function getModuleTableTransformer()
     {
         if(!$this->moduleTableTransformer){
-            $this->moduleTableTransformer = new TableReportTransformer($this->getDoctrine());
+            $this->moduleTableTransformer = new ReportTableTransformer($this->getDoctrine());
         }
         return $this->moduleTableTransformer;
+    }
+    
+    protected function getModuleBarTransformer()
+    {
+        if(!$this->moduleBarTransformer){
+            $this->moduleBarTransformer = new ReportBarTransformer($this->getDoctrine());
+        }
+        return $this->moduleBarTransformer;
     }
 }

@@ -1,0 +1,6 @@
+Earls\RhinoReportBundle\Module\Bar\Definition\BarDefinition:
+  exclusion_policy: ALL
+  properties:
+    id:
+      expose: false
+    

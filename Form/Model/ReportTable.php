@@ -11,6 +11,7 @@ class ReportTable extends GetterSetterBase
 {
     public $id;
     public $displayId;
+    public $position;
     public $reportConfig;
     public $headers = array();
     public $categories = array();
@@ -21,6 +22,7 @@ class ReportTable extends GetterSetterBase
  */
 class Header extends GetterSetterBase
 {
+    public $id;
     public $displayId;
     public $label;
 }
@@ -41,6 +43,7 @@ class Category extends GetterSetterBase
  */
 class Row extends GetterSetterBase
 {
+    public $id;
     public $columns = array();
 }
 
@@ -49,6 +52,7 @@ class Row extends GetterSetterBase
  */
 class Column extends GetterSetterBase
 {
+    public $id;
     public $dataId;
     public $displayId;
     public $groupAction;

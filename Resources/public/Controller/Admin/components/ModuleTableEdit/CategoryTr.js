@@ -1,13 +1,34 @@
 import React from "react";
 import {CATEGORY_CELL_EDIT} from "./Main";
+import Select from "react-select";
 
 export default class CategoryTr extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      dataIds: []
+    };
+  }
+  
   componentWillReceiveProps(nextProps){
-    this.nextProps = nextProps;
+    
   }
   
   openCategoryCellEdit(key){
     this.props.changeRender(CATEGORY_CELL_EDIT, key);
+  }
+  
+  onChangeGroupBy(newValue){
+    var tableDef = Object.assign({}, this.props.tableDef);
+    
+    var groupBy = null;
+    if(newValue){
+      groupBy = newValue.value;
+    }
+    // 0 means the "group" category
+    tableDef.categories[0].group_by = groupBy;
+    
+    this.props.actions.updateTableDef(tableDef);
   }
   
   render(){
@@ -17,7 +38,16 @@ export default class CategoryTr extends React.Component{
       <div class="row">
         <div class="col-lg-2">
           <div class="row">
-            <div class="col-sm-6"><strong>Group </strong></div>
+            <div class="col-sm-6">
+              <strong>Group </strong>
+            </div>
+            <div class="col-sm-6">
+              <Select
+                value={this.props.groupBy}
+                options={this.props.dataIds}
+                onChange={this.onChangeGroupBy.bind(this)}
+              />
+            </div>
           </div>
         </div>
         <div class="col-lg-10">
@@ -54,24 +84,34 @@ export class CategoryCell extends React.Component{
     return (
       <div class="col-xs-4">
         <div class="col-lg-12 well well-sm">
-          <a onClick={this.openCategoryCellEdit.bind(this)}>
-            <i class="fa fa-edit fa-border pull-right"></i>
-          </a>
-          Data Id: {category.dataid}
-          {
-            (()=>{
-              if(category.groupAction){
-                return (<div><br/>GA: {category.groupAction.name}</div>);
+          <div class="row">
+            <div class="col-sm-12">
+              <a onClick={this.openCategoryCellEdit.bind(this)}>
+                <i class="fa fa-edit fa-border"> Edit </i>
+              </a>
+            </div>
+            <div class="col-sm-12">
+              <strong>Data Id:</strong> {category.data_id}
+              {
+                (()=>{
+                  if(category.group_action){
+                    return (<div><br/><strong>GA:</strong> {category.group_action.name}</div>);
+                  }
+                })()
               }
-            })()
-          }
+            </div>
             
-          <br/>
-          {
-            category.actions.map((item2, key2)=>{
-              return (<div key={key2}>Action {key2}: {item2.name}</div>);
-            })
-          }
+            <div class="col-sm-12">
+              <br/><strong>Actions:</strong>
+              <ul>
+                {
+                  category.actions.map((item2, key2)=>{
+                    return (<li key={key2}>{item2.name}</li>);
+                  })
+                }
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     );

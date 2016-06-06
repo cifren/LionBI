@@ -4,6 +4,8 @@ import Header from "./HeaderTr";
 import Category from "./CategoryTr";
 import Row from "./RowTr";
 import CategoryCellEdit from "./CategoryCellEdit";
+import RowCellEdit from "./RowCellEdit";
+import {isEmpty} from "lodash";
 
 export const CATEGORY_CELL_EDIT = 1;
 export const ROW_CELL_EDIT = 2;
@@ -12,7 +14,10 @@ export const MAIN_EDIT = 3;
 export default class ModuleTableEdit extends React.Component {
   constructor(props){
     super(props);
-    this.state = {"render": {"mode": MAIN_EDIT}};
+    this.state = {
+      "render": {"mode": MAIN_EDIT},
+      "dataIds": []
+    };
   }
   
   componentDidMount(){
@@ -20,10 +25,36 @@ export default class ModuleTableEdit extends React.Component {
   }
   
   componentWillReceiveProps(nextProps){
-    console.log('nextProMain', this.props, nextProps)
     if(this.props.reportTable_Get.data != nextProps.reportTable_Get.data){
       this.props.actions.initializeColumn(nextProps.reportTable_Get.data);
+      
+      this.props.actions.getDataIds(nextProps.reportTable_Get.data.report_config.id);
     }
+    
+    if(!isEmpty(this.props.moduleTable.columnList) && this.props.moduleTable != nextProps.moduleTable){
+      this.updateTable(nextProps.moduleTable);
+    }
+    
+    if(this.props.reportData_Get_columns.data != nextProps.reportData_Get_columns.data){
+      var dataIds = [];
+      nextProps.reportData_Get_columns.data.data.map((item)=>{
+        var dataId = {"label": item, "value": item};
+        dataIds.push(dataId);
+      });
+      
+      this.setState({
+        dataIds
+      });
+    }
+  }
+  
+  updateTable(moduleTable){
+    if(this.putTimeout){
+      clearTimeout(this.putTimeout);
+    }
+    this.putTimeout = setTimeout((()=> {
+      this.props.actions.updateTable(moduleTable.columnList, moduleTable.tableDef);
+    }).bind(this), 3000);
   }
   
   addColumn(){
@@ -31,11 +62,11 @@ export default class ModuleTableEdit extends React.Component {
   }
   
   onDelete(){
-    console.log('delete');
+    
   }
   
-  onChangeDisplayId(e){
-    this.props.actions.updateDisplayId(e.target.value);
+  onChangePosition(e){
+    this.props.actions.update("position", e.target.value);
   }
   
   changeRender(renderValue, key){
@@ -50,9 +81,9 @@ export default class ModuleTableEdit extends React.Component {
       case MAIN_EDIT:
         return this.renderTable();
       case CATEGORY_CELL_EDIT:
-        return this.renderCategory(render.key);
+        return this.renderCategoryAndRow(render.key, CATEGORY_CELL_EDIT);
       case ROW_CELL_EDIT:
-        return this.renderRow();
+        return this.renderCategoryAndRow(render.key, ROW_CELL_EDIT);
     }
     return null;
   }
@@ -60,17 +91,29 @@ export default class ModuleTableEdit extends React.Component {
   renderRow(){
     return null;
   }
-  
-  renderCategory(key){
+
+  renderCategoryAndRow(key, mode){
     const columnList = this.props.moduleTable.columnList;
     
+    var ComponentEdit = null;
+    var item = null;
+    if(mode == ROW_CELL_EDIT){
+      ComponentEdit = RowCellEdit;
+      item = columnList[key].row;
+    } else if(mode == CATEGORY_CELL_EDIT){
+      ComponentEdit = CategoryCellEdit;
+      item = columnList[key].category;
+    } else {
+      return null;
+    }
+    
     return (
-      <CategoryCellEdit 
-        categoryKey={key}
-        category={columnList[key].category}
+      <ComponentEdit 
+        itemKey={key}
+        moduleTable={this.props.moduleTable}
+        item={item}
         changeRender={this.changeRender.bind(this)}
-        reportData_Get_columns={this.props.reportData_Get_columns}
-        reportConfigId={this.props.reportTable_Get.data.report_config.id}
+        dataIds={this.state.dataIds}
         actions={{...this.props.actions}}
       />
     );
@@ -78,7 +121,13 @@ export default class ModuleTableEdit extends React.Component {
   
   renderTable(){
     const module = this.props.moduleTable;
-    
+    var groupBy = null;
+    if(this.props.moduleTable 
+      && this.props.moduleTable.tableDef.categories
+      && this.props.moduleTable.tableDef.categories.length >= 2
+      ){
+      groupBy = this.props.moduleTable.tableDef.categories[0].group_by;
+    }
     return (
       <div class="row">
         <div class="col-lg-12">
@@ -93,9 +142,9 @@ export default class ModuleTableEdit extends React.Component {
             <div class="col-lg-12">
               <input 
                 class="form-control"
-                value={module.tableDef.display_id} 
-                onChange={this.onChangeDisplayId.bind(this)} 
-                placeholder="Type a name"
+                value={module.tableDef.position} 
+                onChange={this.onChangePosition.bind(this)} 
+                placeholder="Type a position name"
                 />
             </div>
           </div>
@@ -107,6 +156,10 @@ export default class ModuleTableEdit extends React.Component {
                 actions={{...this.props.actions}}
               />
               <Category 
+                actions={{...this.props.actions}}
+                groupBy={groupBy}
+                tableDef={module.tableDef}
+                dataIds={this.state.dataIds}
                 columnList={module.columnList}
                 reportId={this.props.params.reportId}
                 changeRender={this.changeRender.bind(this)}

@@ -14,6 +14,7 @@ const reportConfigRestName = parameters.api.resources.reportConfig;
 const reportDataRestName = parameters.api.resources.reportData;
 const reportFilterRestName = parameters.api.resources.reportFilter;
 const reportTableRestName = parameters.api.resources.reportTable;
+const reportBarRestName = parameters.api.resources.reportBar;
 
 export default reduxApi({
   reportConfig_Get: {
@@ -70,5 +71,25 @@ export default reduxApi({
     url: URL + "/" + reportTableRestName + "/:id",
     transformer: transformers.object,
     options: JSON_OPTIONS
+  },
+  reportTable_Patch: {
+    url: URL + "/" + reportTableRestName + "/:id",
+    transformer: transformers.object,
+    options: {...JSON_OPTIONS, method: "PATCH"}
+  },
+  reportBar_Post: {
+    url: URL + "/" + reportBarRestName,
+    transformer: transformers.object,
+    options: {...JSON_OPTIONS, method: "POST"}
+  },
+  reportBar_Get: {
+    url: URL + "/" + reportBarRestName + "/:id",
+    transformer: transformers.object,
+    options: JSON_OPTIONS
+  },
+  reportBar_Patch: {
+    url: URL + "/" + reportBarRestName + "/:id",
+    transformer: transformers.object,
+    options: {...JSON_OPTIONS, method: "PATCH"}
   }
 }).use("fetch", adapterFetch(fetch)); // it's necessary to point using REST backend

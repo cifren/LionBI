@@ -1,0 +1,9 @@
+lionbi_report_default:
+    path:  /default/{id}
+    defaults: { _controller: EarlsLionBiBundle:Report:default }
+lionbi_report_remote:
+    path:  /remote/{id}
+    defaults: { _controller: EarlsLionBiBundle:Report:remoteData }
+lionbi_report_export:
+    path:  /export/{id}
+    defaults: { _controller: EarlsLionBiBundle:Report:export }

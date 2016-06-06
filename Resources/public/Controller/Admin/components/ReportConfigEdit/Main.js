@@ -21,6 +21,7 @@ export default class ReportConfigEdit extends React.Component {
   }
   
   componentDidMount() {
+    this.props.actions.resetReportRest();
     this.props.actions.getReport(this.props.params.id);
   }
   

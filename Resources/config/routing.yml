@@ -1,10 +1,20 @@
 lionbi_admin:
-    path: /admin/{reactRouting}
-    defaults: { _controller: EarlsLionBiBundle:Admin:default, reactRouting: null }
-    requirements:
-        reactRouting: ".+"
+  path: /admin/{reactRouting}
+  defaults: { _controller: EarlsLionBiBundle:Admin:default, reactRouting: null }
+  requirements:
+    reactRouting: ".+"
+    
+lionbi_frontend:
+  path: /frontend/{reactRouting}
+  defaults: { _controller: EarlsLionBiBundle:Frontend:default, reactRouting: null }
+  requirements:
+    reactRouting: ".+"
     
 lion_bi_rest_v1 : 
   type : rest 
   resource : "@EarlsLionBiBundle/Resources/config/routing/rest.yml"
   prefix : /api/v1
+  
+lion_bi_report : 
+  resource : "@EarlsLionBiBundle/Resources/config/routing/report.yml"
+  prefix : /report

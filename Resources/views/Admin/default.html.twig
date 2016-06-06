@@ -4,6 +4,19 @@
     <div id="app">
     </div>
 {% endblock body %}
+    
+{% block stylesheet %}
+    {{parent()}}
+    {% stylesheets
+        '@EarlsLionBiBundle/Resources/public/node_modules/metismenu/dist/metisMenu.min.css'
+        '@EarlsLionBiBundle/Resources/public/css/sb-admin/timeline.css'
+        '@EarlsLionBiBundle/Resources/public/css/sb-admin/sb-admin-2.css'
+        '@EarlsLionBiBundle/Resources/public/css/sound-admin/awesomplete/awesomplete.css'
+        '@EarlsLionBiBundle/Resources/public/css/sound-admin/autocomplete.css'
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
 
 {% block javascripts  %}
     {{parent()}}

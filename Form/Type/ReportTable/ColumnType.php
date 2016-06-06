@@ -19,6 +19,7 @@ class ColumnType extends AbstractType
             ->add('groupAction', ActionType::class, array('required' => false))
             ->add('actions', CollectionType::class, array(
                 'allow_add' => true,
+                'allow_delete' => true,
                 'entry_type' => ActionType::class
                 ))
         ;

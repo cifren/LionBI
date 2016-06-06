@@ -17,6 +17,7 @@ class CategoryType extends AbstractType
             ->add('groupBy', TextType::class, array('required' => false))
             ->add('columns', CollectionType::class, array(
                 'allow_add' => true,
+                'allow_delete' => true,
                 'entry_type' => ColumnType::class
                 ))
             ->add('row', RowType::class, array('required' => false))

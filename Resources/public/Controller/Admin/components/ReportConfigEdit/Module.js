@@ -22,6 +22,9 @@ export default class Module extends React.Component {
         case 'table':
           this.props.actions.push(`/admin/report/module/table/${this.state.module.id}`);    
           break;
+        case 'bar':
+          this.props.actions.push(`/admin/report/module/bar/${this.state.module.id}`);    
+          break;
       }
     }
   }
@@ -37,6 +40,11 @@ export default class Module extends React.Component {
         case 'table':
           block = (
             <i class="fa fa-list fa-2x text-center"> Table {this.state.module.item.display_id} </i>
+          );
+          break;
+        case 'bar':
+          block = (
+            <i class="fa fa-list fa-2x text-center"> Bar {this.state.module.item.display_id} </i>
           );
           break;
         default:

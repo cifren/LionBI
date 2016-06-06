@@ -16,6 +16,7 @@ class RowType extends AbstractType
         $builder
             ->add('columns', CollectionType::class, array(
                 'allow_add' => true,
+                'allow_delete' => true,
                 'entry_type' => ColumnType::class,
                 'required' => true
                 ))

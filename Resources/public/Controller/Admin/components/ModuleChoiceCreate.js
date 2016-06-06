@@ -3,6 +3,7 @@ import { bindActionCreators } from "redux";
 import React from "react";
 import { routerActions } from "react-router-redux";
 import * as moduleTableActions from "../actions/moduleTableActions";
+import * as moduleBarActions from "../actions/moduleBarActions";
 import {formatPattern} from "react-router";
 
 export class ModuleChoiceCreate extends React.Component {
@@ -18,14 +19,20 @@ export class ModuleChoiceCreate extends React.Component {
         this.props.actions.push(formatPattern(`/admin/report/module/table/:moduleId`, {moduleId: nextProps.reportTable_Post.data.id}) );
       }
     }
+    
+    if(this.props.reportBar_Post.data !== nextProps.reportBar_Post.data){
+      if(nextProps.reportBar_Post.data.id){
+        this.props.actions.push(formatPattern(`/admin/report/module/bar/:moduleId`, {moduleId: nextProps.reportBar_Post.data.id}) );
+      }
+    }
   }
   
   createTable(){
     this.props.actions.createTable(this.props.reportConfig_Get.data.id);
   }
   
-  createChart(){
-    //this.props.actions.push(formatPattern(`/admin/report/module/chart`, {reportId: this.props.params.reportId}));
+  createBar(){
+    this.props.actions.createBar(this.props.reportConfig_Get.data.id);
   }
   
   render(){
@@ -41,9 +48,9 @@ export class ModuleChoiceCreate extends React.Component {
               </div>
             </div>
             <div class="col-lg-3">
-              <div class="col-lg-12 well selectableBox" onClick={this.createChart.bind(this)}>
+              <div class="col-lg-12 well selectableBox" onClick={this.createBar.bind(this)}>
                 <i class="fa fa-plus fa-3x text-center"></i>
-                Chart
+                Bar
               </div>
             </div>
           </div>
@@ -59,7 +66,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch){
   return {
-    actions: bindActionCreators(Object.assign({}, routerActions, moduleTableActions), dispatch)
+    actions: bindActionCreators(Object.assign({}, routerActions, moduleTableActions, moduleBarActions), dispatch)
   };
 }
 
