@@ -13,7 +13,7 @@ before_script:
   
 env:
 #- ACTION="run lint"
-- ACTION="run phpunit"
+- ACTION="run test"
 
 script:
     - composer $ACTION
