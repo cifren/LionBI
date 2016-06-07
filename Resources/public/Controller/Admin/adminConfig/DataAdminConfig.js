@@ -9,13 +9,13 @@ export default class DataAdminConfig extends AdminConfig {
     },
     "display_name": {
       "type": "string",
-      "description": "What name do you want ?",
+      "description": "Type name",
       "title": "Name",
       "default": null
     },
     "sql_statement": {
       "type": "string",
-      "description": "What name do you want ?",
+      "description": "Type sql statement",
       "title": "Sql Statement",
       "default": null
     }
