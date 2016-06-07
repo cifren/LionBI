@@ -63,7 +63,8 @@ class ReportTableTransformerTest extends \PHPUnit_Framework_TestCase
     {
         // this table definition suppose to be linear, it should have only 
         //one group into a group
-        $group = array_shift($group->getGroups());
+        $groups = $group->getGroups();
+        $group = array_shift($groups);
         if(isset($group)){
             return $this->getGroupDepth($group, ++$count);
         } else {
