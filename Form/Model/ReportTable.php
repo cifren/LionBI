@@ -5,7 +5,7 @@ namespace Earls\LionBiBundle\Form\Model;
 use Earls\LionBiBundle\Model\GetterSetterBase;
 
 /**
- * Earls\LionBiBundle\Form\Model\ReportTable
+ * Earls\LionBiBundle\Form\Model\ReportTable.
  */
 class ReportTable extends GetterSetterBase
 {
@@ -18,7 +18,7 @@ class ReportTable extends GetterSetterBase
 }
 
 /**
- * Earls\LionBiBundle\Form\Model\Header
+ * Earls\LionBiBundle\Form\Model\Header.
  */
 class Header extends GetterSetterBase
 {

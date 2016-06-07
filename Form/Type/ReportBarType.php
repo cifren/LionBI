@@ -19,7 +19,7 @@ class ReportBarType extends AbstractType
     {
         $this->manager = $manager;
     }
-    
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $transformer = new ReportBarTransformer($this->manager);
@@ -33,7 +33,7 @@ class ReportBarType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'entry_type' => ReportBarDatasetType::class,
-                'by_reference' => true
+                'by_reference' => true,
                 ))
             ->add('reportConfig', EntityType::class, array(
                 'class' => LnbReportConfig::class,

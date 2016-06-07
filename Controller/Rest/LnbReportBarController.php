@@ -18,15 +18,15 @@ class LnbReportBarController extends RestController
     protected $getRoute = 'api_v1_LnbReportBar_get_reportbar';
     protected $cGetRoute = 'api_v1_LnbReportBar_get_reportbars';
     protected $formClass = ReportBarType::class;
-    
+
     protected function getTransformer()
     {
         return new ReportBarTransformer($this->getDoctrine());
     }
-    
+
     /**
-    * @Route("/reportbars/submit/form", methods={"GET", "POST"})
-    */
+     * @Route("/reportbars/submit/form", methods={"GET", "POST"})
+     */
     public function submitformAction(Request $request)
     {
         return parent::submitformAction($request);

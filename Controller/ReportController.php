@@ -4,7 +4,6 @@ namespace Earls\LionBiBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Earls\LionBiBundle\Entity\LnbReportConfig;
 use Earls\LionBiBundle\Entity\LnbReportData;
@@ -27,9 +26,9 @@ class ReportController extends Controller
         $exportUrl = $this->generateUrl('lionbi_report_export', array('id' => $id));
         $exportManager = $this->get('report.template.generator.manager');
         $templating = $exportManager->getTemplating($reportObject, $remoteUrl, $exportUrl);
-        
+
         return $this->render('EarlsLionBiBundle:Frontend:report.html.twig', array(
-            'template' => $templating
+            'template' => $templating,
         ));
     }
 
@@ -62,7 +61,7 @@ class ReportController extends Controller
         $rptConfig
             ->setConfigReportDefinition($rptConfigEntity->getRhnReportDefinition())
             ->setArrayData($data);
-            
+
         $rptBuilder = $this->get('report.builder');
         $rptBuilder->setRequest($request);
         $rptBuilder->setConfiguration($rptConfig);
@@ -70,12 +69,11 @@ class ReportController extends Controller
 
         return $rptBuilder->getReport();
     }
-    
+
     protected function getData(LnbReportData $dataSource)
     {
         $reportDataManager = $this->get('report_data_manager');
-        
+
         return $reportDataManager->fetchAll($dataSource);
     }
-    
 }

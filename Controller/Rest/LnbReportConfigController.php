@@ -26,60 +26,63 @@ class LnbReportConfigController extends RestController
     protected $moduleBarTransformer;
 
     /**
-    * @Route("/reports/submit/form", methods={"GET", "POST"})
-    */
+     * @Route("/reports/submit/form", methods={"GET", "POST"})
+     */
     public function submitformAction(Request $request)
     {
         return parent::submitformAction($request);
     }
-    
+
     public function cgetModulesAction(Request $request, $reportConfigId)
     {
         $item = $this->getDoctrine()->getRepository($this->getClassName())
             ->find($reportConfigId);
-            
+
         if (!is_object($item)) {
             throw $this->createNotFoundException();
         }
         $items = $item->getRhnReportDefinition()
             ->getItems();
-        $transformedItems = array_map(function($item){
-            if($item instanceof RhnTblMainDefinition){
+        $transformedItems = array_map(function ($item) {
+            if ($item instanceof RhnTblMainDefinition) {
                 $reportTable = $this->getModuleTableTransformer()->transform($item);
                 $item = array(
-                    'id'=>$reportTable->getId(),
-                    'type'=>'table',
-                    'item'=>$reportTable
+                    'id' => $reportTable->getId(),
+                    'type' => 'table',
+                    'item' => $reportTable,
                 );
-            } else if($item instanceof RhnBarDefinition){
+            } elseif ($item instanceof RhnBarDefinition) {
                 $module = $this->getModuleBarTransformer()->transform($item);
                 $item = array(
-                    'id'=>$module->getId(),
-                    'type'=>'bar',
-                    'item'=>$module
+                    'id' => $module->getId(),
+                    'type' => 'bar',
+                    'item' => $module,
                 );
             }
+
             return $item;
         }, $items->toArray());
-        
+
         $view = new View($transformedItems);
-        
+
         return $view;
     }
-    
+
     protected function getModuleTableTransformer()
     {
-        if(!$this->moduleTableTransformer){
+        if (!$this->moduleTableTransformer) {
             $this->moduleTableTransformer = new ReportTableTransformer($this->getDoctrine());
         }
+
         return $this->moduleTableTransformer;
     }
-    
+
     protected function getModuleBarTransformer()
     {
-        if(!$this->moduleBarTransformer){
+        if (!$this->moduleBarTransformer) {
             $this->moduleBarTransformer = new ReportBarTransformer($this->getDoctrine());
         }
+
         return $this->moduleBarTransformer;
     }
 }

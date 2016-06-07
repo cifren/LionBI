@@ -12,7 +12,7 @@ abstract class GetterSetterBase
         if (preg_match('~^(set|get)([A-Z])(.*)$~', $methodName, $matches)) {
             $property = strtolower($matches[2]).$matches[3];
             if (!property_exists($this, $property)) {
-                throw new \Exception(sprintf('Property "%s" not exists on class "%s"',$property, get_class($this)));
+                throw new \Exception(sprintf('Property "%s" not exists on class "%s"', $property, get_class($this)));
             }
             switch ($matches[1]) {
               case 'set':
@@ -50,5 +50,4 @@ abstract class GetterSetterBase
             throw new \Exception('Method '.$methodName.' needs minimaly '.$min.' and maximaly '.$max.' arguments. '.$argc.' arguments given.');
         }
     }
-    
 }

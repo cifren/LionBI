@@ -16,7 +16,7 @@ use Earls\LionBiBundle\Form\Transformer\ReportTableTransformer;
 use Earls\LionBiBundle\Entity\LnbReportConfig;
 
 /**
- *   Earls\LionBiBundle\Form\Type\ReportTableType
+ *   Earls\LionBiBundle\Form\Type\ReportTableType.
  */
 class ReportTableType extends AbstractType
 {
@@ -24,7 +24,7 @@ class ReportTableType extends AbstractType
     {
         $this->manager = $manager;
     }
-    
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $transformer = new ReportTableTransformer($this->manager);
@@ -58,7 +58,7 @@ class ReportTableType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            "data_class" => ReportTable::class,
+            'data_class' => ReportTable::class,
             'csrf_protection' => false,
             'allow_extra_fields' => true,
         ));

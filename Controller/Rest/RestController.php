@@ -83,16 +83,17 @@ class RestController extends FOSRestController
 
         return $this;
     }
-    
+
     protected function setTransformer($transformer)
     {
-      $this->transformer= $transformer;
-      return $this;
+        $this->transformer = $transformer;
+
+        return $this;
     }
-    
+
     protected function getTransformer()
     {
-      return $this->transformer;
+        return $this->transformer;
     }
 
   // suppose to be working, but issue with the routing, needs to be copy into the main controller
@@ -106,11 +107,11 @@ class RestController extends FOSRestController
   {
       print_r('<b>Var_dump Request results:</b>');
       var_dump($request->request->all());
-      echo "<b>Json array:</b>";
-      echo "<br>".json_encode($request->request->all(), JSON_PRETTY_PRINT)."<br><br>";
+      echo '<b>Json array:</b>';
+      echo '<br>'.json_encode($request->request->all(), JSON_PRETTY_PRINT).'<br><br>';
       $className = $this->getClassName();
       $entity = $this->getSubmitEntity();
-      
+
       $form = $this->container->get('form.factory')->create($this->getFormClass(), $entity);
       $form->add('save', SubmitType::class, array('label' => 'Submit'));
       $form->handleRequest($request);
@@ -121,12 +122,13 @@ class RestController extends FOSRestController
 
       return $this->render('EarlsLionBiBundle:Rest:form.html.twig', array('form' => $form->createView()));
   }
-  
-  protected function getSubmitEntity()
-  {
-    $className = $this->getClassName();
-    return new $className();
-  }
+
+    protected function getSubmitEntity()
+    {
+        $className = $this->getClassName();
+
+        return new $className();
+    }
 
   /**
    * Get a collection of Object.
@@ -156,7 +158,7 @@ class RestController extends FOSRestController
           throw $this->createNotFoundException();
       }
       $item = $this->applyTransformer($item);
-      
+
       $view = new View($item);
 
       return $view;
@@ -271,42 +273,43 @@ class RestController extends FOSRestController
 
       return $handler;
   }
-  
+
   /**
    * @param mixed
-   */ 
-  protected  function applyTransformer($object)
+   */
+  protected function applyTransformer($object)
   {
-    if(is_object($object)){
-      $newObject = $this->applyTransformerOnObject($object);
-    } else if(is_array($object)) {
-      $newObject = $this->applyTransformerOnArray($object);
-    } else {
-      throw new UnexpectedTypeException($object, "Array() or Object()");
-    }
-    
-    return $newObject;
-  }
-  
-  protected function applyTransformerOnObject($item)
-  {
-    if($this->getTransformer()){
-      if($this->getTransformer() instanceof DataTransformerInterface){
-        $item = $this->getTransformer()->transform($item);
+      if (is_object($object)) {
+          $newObject = $this->applyTransformerOnObject($object);
+      } elseif (is_array($object)) {
+          $newObject = $this->applyTransformerOnArray($object);
       } else {
-        throw new \Exception(sprintf("The transformer '%s' needs to implement '%s'", get_class($this->getTransformer()), DataTransformerInterface::class));
+          throw new UnexpectedTypeException($object, 'Array() or Object()');
       }
-    }
-    return $item;
+
+      return $newObject;
   }
-  
-  protected function applyTransformerOnArray(array $items)
-  {
-    $newAry = array();
-    foreach($items as $item){
-      $newAry[] = $this->applyTransformerOnObject($item);
+
+    protected function applyTransformerOnObject($item)
+    {
+        if ($this->getTransformer()) {
+            if ($this->getTransformer() instanceof DataTransformerInterface) {
+                $item = $this->getTransformer()->transform($item);
+            } else {
+                throw new \Exception(sprintf("The transformer '%s' needs to implement '%s'", get_class($this->getTransformer()), DataTransformerInterface::class));
+            }
+        }
+
+        return $item;
     }
-    
-    return $newAry;
-  }
+
+    protected function applyTransformerOnArray(array $items)
+    {
+        $newAry = array();
+        foreach ($items as $item) {
+            $newAry[] = $this->applyTransformerOnObject($item);
+        }
+
+        return $newAry;
+    }
 }

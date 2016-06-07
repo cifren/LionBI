@@ -18,7 +18,7 @@ class CategoryType extends AbstractType
             ->add('columns', CollectionType::class, array(
                 'allow_add' => true,
                 'allow_delete' => true,
-                'entry_type' => ColumnType::class
+                'entry_type' => ColumnType::class,
                 ))
             ->add('row', RowType::class, array('required' => false))
         ;
@@ -32,7 +32,7 @@ class CategoryType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            "data_class" => Category::class,
+            'data_class' => Category::class,
             'csrf_protection' => false,
             'allow_extra_fields' => true,
         ));

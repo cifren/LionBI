@@ -57,11 +57,11 @@ class ReportDataManager
         $sql = $reportData->getSqlStatement();
         // add limit in order to optimize
         $sql .= ' LIMIT 1';
-  
+
             $stmt = $this->getPrepareStatement($sql);
             $stmt->execute();
             $data = $stmt->fetchAll(PDO::FETCH_CLASS);
-  
+
         // in case data exist in query
         if (isset($data[0])) {
             // there is at least one row - we can grab columns from it
@@ -74,7 +74,7 @@ class ReportDataManager
              $columns[] = $stmt->getWrappedStatement()->getColumnMeta($i)['name'];
             }
         }
-  
+
         // return column names
         return $jsonResponse->setData($columns);
         } else {
@@ -87,8 +87,9 @@ class ReportDataManager
     {
         $sql = $reportData->getSqlStatement();
         $stmt = $this->getPrepareStatement($sql);
-        
+
         $stmt->execute();
+
         return $data = $stmt->fetchAll();
     }
 

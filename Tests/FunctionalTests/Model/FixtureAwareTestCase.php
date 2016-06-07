@@ -1,10 +1,10 @@
 <?php
+
 namespace Earls\RhinoReportBundle\Tests\FunctionalTests\Model;
 
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
@@ -12,8 +12,8 @@ use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\StreamOutput;
 
 /**
- * Earls\RhinoReportBundle\Tests\FunctionalTests\Model\FixtureAwareTestCase
- **/ 
+ * Earls\RhinoReportBundle\Tests\FunctionalTests\Model\FixtureAwareTestCase.
+ **/
 abstract class FixtureAwareTestCase extends WebTestCase
 {
     /**
@@ -62,6 +62,7 @@ abstract class FixtureAwareTestCase extends WebTestCase
             $entityManager = self::$kernel->getContainer()->get('doctrine')->getManager();
             $this->fixtureExecutor = new ORMExecutor($entityManager, new ORMPurger($entityManager));
         }
+
         return $this->fixtureExecutor;
     }
 
@@ -73,9 +74,10 @@ abstract class FixtureAwareTestCase extends WebTestCase
         if (!$this->fixtureLoader) {
             $this->fixtureLoader = new ContainerAwareLoader(self::$kernel->getContainer());
         }
+
         return $this->fixtureLoader;
     }
-    
+
     public function runCommand($command)
     {
         $client = self::createClient();

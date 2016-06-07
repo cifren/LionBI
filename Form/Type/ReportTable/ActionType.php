@@ -16,7 +16,7 @@ class ActionType extends AbstractType
         $builder
             ->add('name', TextType::class)
             ->add('options', CollectionType::class, array(
-                'allow_add' => true
+                'allow_add' => true,
                 ))
         ;
     }
@@ -29,7 +29,7 @@ class ActionType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            "data_class" => Action::class,
+            'data_class' => Action::class,
             'csrf_protection' => false,
             'allow_extra_fields' => true,
         ));

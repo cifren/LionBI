@@ -20,7 +20,7 @@ class ColumnType extends AbstractType
             ->add('actions', CollectionType::class, array(
                 'allow_add' => true,
                 'allow_delete' => true,
-                'entry_type' => ActionType::class
+                'entry_type' => ActionType::class,
                 ))
         ;
     }
@@ -33,7 +33,7 @@ class ColumnType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            "data_class" => Column::class,
+            'data_class' => Column::class,
             'csrf_protection' => false,
             'allow_extra_fields' => true,
         ));

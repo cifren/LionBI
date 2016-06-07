@@ -5,7 +5,6 @@ namespace Earls\LionBiBundle\Form\Type\ReportTable;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Earls\LionBiBundle\Form\Model\Row;
 
@@ -18,7 +17,7 @@ class RowType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'entry_type' => ColumnType::class,
-                'required' => true
+                'required' => true,
                 ))
         ;
     }
@@ -31,7 +30,7 @@ class RowType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            "data_class" => Row::class,
+            'data_class' => Row::class,
             'csrf_protection' => false,
             'allow_extra_fields' => true,
         ));

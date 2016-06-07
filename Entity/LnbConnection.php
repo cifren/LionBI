@@ -3,12 +3,11 @@
 namespace Earls\LionBiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Earls\LionBiBundle\Model\Entity\LnbSubConnectionInterface;
 
 /**
- * Earls\LionBiBundle\Entity\LnbConnection
+ * Earls\LionBiBundle\Entity\LnbConnection.
  *
- * @ORM\Entity 
+ * @ORM\Entity
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
  * @ORM\DiscriminatorMap({"api" = "LnbConnectionApi", "excel" = "LnbConnectionExcel", "db" = "LnbConnectionDb"})
@@ -35,7 +34,7 @@ abstract class LnbConnection
     {
         return $this->id;
     }
-    
+
     public function getDisplayName()
     {
         return $this->displayName;

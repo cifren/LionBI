@@ -26,7 +26,7 @@ class HeaderType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            "data_class" => Header::class,
+            'data_class' => Header::class,
             'csrf_protection' => false,
             'allow_extra_fields' => true,
         ));
