@@ -1,6 +1,6 @@
 <?php
 
-namespace Earls\RhinoReportBundle\Tests\FunctionalTests\Model;
+namespace Earls\LionBiBundle\Tests\FunctionalTests\Model;
 
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\StreamOutput;
 
 /**
- * Earls\RhinoReportBundle\Tests\FunctionalTests\Model\FixtureAwareTestCase.
+ * Earls\LionBiBundle\Tests\FunctionalTests\Model\FixtureAwareTestCase
  **/
 abstract class FixtureAwareTestCase extends WebTestCase
 {
@@ -40,15 +40,20 @@ abstract class FixtureAwareTestCase extends WebTestCase
     {
         $this->getFixtureLoader()->addFixture($fixture);
     }
+    
+    protected function initTestDatabase()
+    {
+        $this->runCommand('doctrine:database:drop --force');
+        $this->runCommand('doctrine:database:create');
+        $this->runCommand('doctrine:schema:create');
+    }
 
     /**
      * Executes all the fixtures that have been loaded so far.
      */
     protected function executeFixtures()
     {
-        $this->runCommand('doctrine:database:drop --force');
-        $this->runCommand('doctrine:database:create');
-        $this->runCommand('doctrine:schema:create');
+        $this->initTestDatabase();
         $this->getFixtureExecutor()->execute($this->getFixtureLoader()->getFixtures(), true);
     }
 
@@ -98,5 +103,11 @@ abstract class FixtureAwareTestCase extends WebTestCase
         fclose($fp);
 
         return $output;
+    }
+    
+    protected function getContainer()
+    {
+        self::bootKernel();
+        return self::$kernel->getContainer();
     }
 }

@@ -16,7 +16,13 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
 
+            new Earls\LionBiBundle\EarlsLionBiBundle(),
             new Earls\RhinoReportBundle\EarlsRhinoReportBundle(),
+            new Earls\OxPeckerDataBundle\EarlsOxPeckerDataBundle(),
+            new Earls\FlamingoCommandQueueBundle\EarlsFlamingoCommandQueueBundleBundle(),
+            new FOS\RestBundle\FOSRestBundle(),
+            new JMS\SerializerBundle\JMSSerializerBundle(),
+            new Lexik\Bundle\FormFilterBundle\LexikFormFilterBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

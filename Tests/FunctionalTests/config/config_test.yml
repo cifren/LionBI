@@ -42,3 +42,35 @@ doctrine:
     auto_generate_proxy_classes: true
     naming_strategy: doctrine.orm.naming_strategy.underscore
     auto_mapping: true
+              
+fos_rest:
+    param_fetcher_listener: true
+    body_listener:
+        # Allow the request to be converted "camel_case" into "CamelCase", 
+        # request needs to have "Content-Type:application/json"
+        array_normalizer: fos_rest.normalizer.camel_keys
+    format_listener: true
+    view:
+        view_response_listener: 'force'
+        formats:
+            xml: true
+            json : true
+        templating_formats:
+            html: true
+        force_redirects:
+            html: true
+        failed_validation: HTTP_BAD_REQUEST
+        default_engine: twig
+    routing_loader:
+        default_format: json
+    
+jms_serializer:
+    metadata:
+        auto_detection: true
+        directories:
+            EarlsLionBiBundle:
+                namespace_prefix: "Earls\\LionBiBundle"
+                path: "@EarlsLionBiBundle/Resources/config/serializer"
+            EarlsRhinoReportBundle:
+                namespace_prefix: "Earls\\RhinoReportBundle"
+                path: "@EarlsLionBiBundle/Resources/config/serializer"
