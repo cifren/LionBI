@@ -5,15 +5,17 @@ php:
     - "5.5"
 before_script:
     #- cp app/config/parameters.yml.travis app/config/parameters.yml
-    - composer install
+    #- composer install
     #- php app/console doctrine:database:create --env=test
     #- php app/console doctrine:schema:create --env=test
     #- php app/console doctrine:fixtures:load -n --env=test
 env:
-    - ACTION="run lint"
-    - ACTION="run test"
+    - ACTION="composer run lint"
+    - ACTION="composer install;composer run test"
+  
 script:
-    - composer $ACTION
+    - $ACTION
+    
 notifications:
   email:
     -  cifren@msn.com
